@@ -27,6 +27,7 @@ public class Main extends Application {
         stage.show();
     }
 //Hæ þetta ég...
+    // Blessaður
     /**
      * @param args the command line arguments
      */
