@@ -26,7 +26,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
+//Hæ þetta ég...
     /**
      * @param args the command line arguments
      */
