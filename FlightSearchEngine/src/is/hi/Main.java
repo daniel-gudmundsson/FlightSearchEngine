@@ -26,7 +26,8 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
     }
-//Hæ þetta ég...
+    //Hæ þetta ég...
+    //Ég er bara þrullu góður
     /**
      * @param args the command line arguments
      */
