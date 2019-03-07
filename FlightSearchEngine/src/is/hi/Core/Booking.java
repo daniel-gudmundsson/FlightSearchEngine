@@ -25,6 +25,14 @@ public class Booking {
         return "Booking{" + "bookingNumber=" + bookingNumber + ", seat=" + seat + ", flight=" + flight + ", passenger=" + passenger + '}';
     }
     */
+
+    public String getBookingNumber() {
+        return bookingNumber;
+    }
+
+    public Ticket[] getTickets() {
+        return tickets;
+    }
     
     
     
