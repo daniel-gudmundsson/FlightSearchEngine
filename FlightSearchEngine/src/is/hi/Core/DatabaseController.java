@@ -104,7 +104,7 @@ public class DatabaseController{
                 
                 passenger = new Passenger(name, kt);
                 flight = new Flight(fnumber, airline, ffrom, fto, date, time, price, null);
-                booking = new Booking(bookingNumber, seat, flight, passenger);
+                //booking = new Booking(bookingNumber, seat, flight, passenger);  /// Þarf að laga hér !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 
             }
         } catch (Exception e) {

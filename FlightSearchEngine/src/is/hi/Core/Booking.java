@@ -11,23 +11,20 @@ package is.hi.Core;
  */
 public class Booking {
     
-    String bookingNumber;
-    String seat;
-    Flight flight;
-    Passenger passenger;
+   private String bookingNumber;
+   private Ticket [] tickets;
 
-    public Booking(String bookingNumber, String seat, Flight flight, Passenger passenger) {
+    public Booking(String bookingNumber, Ticket [] tickets) {
         this.bookingNumber = bookingNumber;
-        this.seat = seat;
-        this.flight = flight;
-        this.passenger = passenger;
+        this.tickets = tickets;
     }
 
+    /*
     @Override
     public String toString() {
         return "Booking{" + "bookingNumber=" + bookingNumber + ", seat=" + seat + ", flight=" + flight + ", passenger=" + passenger + '}';
     }
-    
+    */
     
     
     
