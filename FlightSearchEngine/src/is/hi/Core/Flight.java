@@ -20,9 +20,9 @@ public class Flight {
     private LocalDate date;
     private LocalTime time;
     private int price;
-    private boolean[] seats;
+    private String seats;
 
-    public Flight(String fNumber, String airline, String from, String to, LocalDate date, LocalTime time, int price, boolean[] seats) {
+    public Flight(String fNumber, String airline, String from, String to, LocalDate date, LocalTime time, int price, String seats) {
         this.fNumber = fNumber;
         this.airline = airline;
         this.from = from;
@@ -61,8 +61,12 @@ public class Flight {
         return price;
     }
 
-    public boolean[] getSeats() {
+    public String getSeats() {
         return seats;
+    }
+
+    public void setSeats(String seats) {
+        this.seats = seats;
     }
 
     

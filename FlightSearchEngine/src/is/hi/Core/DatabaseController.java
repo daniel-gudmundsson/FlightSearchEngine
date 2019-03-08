@@ -24,10 +24,12 @@ public class DatabaseController{
     
     private String SQL_GETFLIGHT = "SELECT * FROM Flight WHERE date = ?";
     private String SQL_GETBOOKING = "SELECT * FROM Booking WHERE Bookings = ?";
-    private String SQL_INSERTPASSENGER= "INSERT IGNORE INTO Passenger (kt,bookingNumber, name) VALUES (?, ?, ?)";
-    private String SQL_INSERTTICKET= "INSERT INTO Ticket (bookingNumber, kt, seat, fnumber, date, time, fFrom) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private String SQL_INSERTBOOKING= "INSERT INTO Booking (bookingNumber, tickets) VALUES (?, ?)";
-      
+    private String SQL_INSERTPASSENGER = "INSERT IGNORE INTO Passenger (kt, name, numberOfTickets) VALUES (?, ?, ?)";
+    private String SQL_INSERTTICKET = "INSERT INTO Ticket (bookingNumber, kt, seat, fnumber, date, time, fFrom) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private String SQL_INSERTBOOKING = "INSERT INTO Booking (bookingNumber, tickets) VALUES (?, ?)";
+    private String SQL_INCREMENTTICKETCOUNT = "UPDATE Passenger SET numberOfTickets = numberOfTickets + 1 WHERE kt = ?";
+    private String SQL_UPDATESEATS = "UPDATE Flight SET seats = ? where fNumber = ? and fFrom = ? and date = ? and time = ?";
+
                                   
     
     /**
@@ -69,8 +71,9 @@ public class DatabaseController{
                 LocalDate fdate = LocalDate.parse(rs.getString(5));
                 LocalTime time = LocalTime.parse(rs.getString(6));
                 int price = Integer.parseInt(rs.getString(7));
+                String seats = rs.getString(8);
                 
-                flight = new Flight(fNumber, airline, ffrom, fto, fdate, time, price, null);
+                flight = new Flight(fNumber, airline, ffrom, fto, fdate, time, price, seats);
                 list.add(flight);
             }
         } catch (Exception e) {
@@ -122,7 +125,7 @@ public class DatabaseController{
     }
     
     //Vantar að upfæra sætin
-    public boolean book(Booking booking){
+    public boolean bookBooking(Booking booking){
         //For booking
         String bookingNumber; // Booking and Ticket
         int tickets;
@@ -139,6 +142,10 @@ public class DatabaseController{
         LocalTime time;
         String fFrom;
         
+        SeatCoder seatCoder = new SeatCoder();
+        
+        
+        
 
         try{
             //Inserting into Booking
@@ -151,13 +158,31 @@ public class DatabaseController{
             pstmt.execute();
             
             
+            
+            
             //Inserting into Passenger and ticket
             for (Ticket i: booking.getTickets()){
                 
+                
+                //Inserting into passenger if the passenger does not exists
+                pstmt = conn.prepareStatement(SQL_INSERTPASSENGER);
+                name = i.getPassenger().name;
+                kt = i.getPassenger().kt;
+                pstmt.clearParameters();
+                pstmt.setString(1, kt);
+                pstmt.setString(2, name);
+                pstmt.setString(3, Integer.toString(0));
+                pstmt.execute();
+                
+//                //Increment numberOfTickets by 1
+                pstmt = conn.prepareStatement(SQL_INCREMENTTICKETCOUNT);
+                pstmt.clearParameters();
+                pstmt.setString(1, kt);
+                pstmt.execute();
+//                
                 //Inserting Ticket for passenger
                 pstmt = conn.prepareStatement(SQL_INSERTTICKET);
                 seat = i.getSeat();
-                kt = i.getPassenger().kt;
                 fnumber = i.getFlight().getfNumber();
                 date = i.getFlight().getDate();
                 time = i.getFlight().getTime();
@@ -173,16 +198,25 @@ public class DatabaseController{
                 pstmt.setString(7, fFrom);
                 pstmt.execute();
                 
-                //Inserting into passenger if the passenger does not exists
-                pstmt = conn.prepareStatement(SQL_INSERTPASSENGER);
-                name = i.getPassenger().name;
+                //Insert reserved seats into flights
+                seatCoder.setseatcode(i.getFlight().getSeats());
+                System.out.println(seatCoder.getSeatcode());
+                seatCoder.reserveSeat(seat);
+                i.getFlight().setSeats(seatCoder.getSeatcode());
+                //System.out.println(seat);
+                System.out.println(seatCoder.getSeatcode());
+                pstmt = conn.prepareStatement(SQL_UPDATESEATS);
                 pstmt.clearParameters();
-                pstmt.setString(1, kt);
-                pstmt.setString(2, bookingNumber);
-                pstmt.setString(3, name);
+                pstmt.setString(1, seatCoder.getSeatcode());
+                pstmt.setString(2, fnumber);
+                pstmt.setString(3, fFrom);
+                pstmt.setString(4, date.toString());
+                pstmt.setString(5, time.toString());
                 pstmt.execute();
+                
+                
+                
             }
-            
         conn.commit();
         return true;
         } catch (Exception e) {
@@ -206,18 +240,18 @@ public class DatabaseController{
     
     
     public static void main( String[] args ){
-        System.out.println(LocalDate.of(2019, 01, 01).toString());
+        System.out.println("dad");
         DatabaseController DB = new DatabaseController();
         ArrayList<Flight> list = DB.getFlights(LocalDate.of(2019, 01, 01));
         //Booking booking = DB.getBooking("1234");
         //System.out.println(list);
         //System.out.println(booking);
-        Flight flight1 = list.get(1);
-        Booking booking = new Booking("1234",new Ticket[]{new Ticket("1234", "2a", new Passenger("Agnar Petursson", "3004972929"), flight1), new Ticket("1234", "2b", new Passenger("Jon Jonsson", "2008972929"), flight1)});
-        DB.book(booking);
+        Flight flight1 = list.get(2);
+        Booking booking = new Booking("4321",new Ticket[]{new Ticket("1234", "2a", new Passenger("Agnar Petursson", "3004972929"), flight1), new Ticket("1234", "3a", new Passenger("Jon Jonsson", "2008972929"), flight1)});
+        System.out.println(booking);
+        DB.bookBooking(booking);
         
-        
-        
+
         
         DB.closeConnection();
         
