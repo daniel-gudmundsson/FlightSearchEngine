@@ -22,7 +22,7 @@ public class DatabaseController{
     private String SQL_USER = "sql2276561";
     private String SQL_PASSWORD = "qF3!zE5!";
     
-    private String SQL_GETFLIGHT = "SELECT * FROM Flight WHERE date = ?";
+    private String SQL_GETFLIGHT = "SELECT * FROM Flight WHERE fFrom = ? and fTo = ? and date = ? ";
     private String SQL_GETBOOKING = "SELECT * FROM Booking WHERE Bookings = ?";
     private String SQL_INSERTPASSENGER = "INSERT IGNORE INTO Passenger (kt, name, numberOfTickets) VALUES (?, ?, ?)";
     private String SQL_INSERTTICKET = "INSERT INTO Ticket (bookingNumber, kt, seat, fnumber, date, time, fFrom) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -52,14 +52,16 @@ public class DatabaseController{
      * @param date specific date.
      * @return List of all flights with a specific date.
      */
-    public ArrayList<Flight> getFlights(LocalDate date){
+    public ArrayList<Flight> getFlights(String from, String to, LocalDate date){
         ArrayList<Flight> list = new ArrayList<Flight>();
         Flight flight;
         try {
             pstmt = conn.prepareStatement(SQL_GETFLIGHT);
             
             pstmt.clearParameters();
-            pstmt.setString(1, date.toString());
+            pstmt.setString(1, from);
+            pstmt.setString(2, to);
+            pstmt.setString(3, date.toString());
             
             ResultSet rs = pstmt.executeQuery();
             conn.commit();
@@ -87,6 +89,7 @@ public class DatabaseController{
      * @param bookingNumber Booking number to look up in the database.
      * @return booking with bookingNumber. Returns null if booking with bookingNumber does not exist.
      */
+    /*
     public Booking getBooking(String bookingNumber){
         Booking booking = null;
         Passenger passenger;
@@ -96,24 +99,25 @@ public class DatabaseController{
             
             pstmt.clearParameters();
             pstmt.setString(1, bookingNumber);  
-            
             ResultSet rs = pstmt.executeQuery();
             conn.commit();
+            
             while(rs.next() ){
-                String bookingN = rs.getString(1);
-                String name = rs.getString(2);
-                String fnumber = rs.getString(3);
-                String airline = rs.getString(4);
-                String ffrom = rs.getString(5);
-                String fto = rs.getString(6);
-                LocalDate date = LocalDate.parse(rs.getString(7));
-                LocalTime time = LocalTime.parse(rs.getString(8));
-                int price = Integer.parseInt(rs.getString(9));
-                String seat = rs.getString(10);
-                String kt = rs.getString(11);
+                String bookingNumber = rs.getString(1);
+                booking = new Booking(bookingNumber,null);
+//                String name = rs.getString(2);
+//                String fnumber = rs.getString(3);
+//                String airline = rs.getString(4);
+//                String ffrom = rs.getString(5);
+//                String fto = rs.getString(6);
+//                LocalDate date = LocalDate.parse(rs.getString(7));
+//                LocalTime time = LocalTime.parse(rs.getString(8));
+//                int price = Integer.parseInt(rs.getString(9));
+//                String seat = rs.getString(10);
+//                String kt = rs.getString(11);
                 
                 passenger = new Passenger(name, kt);
-                flight = new Flight(fnumber, airline, ffrom, fto, date, time, price, null);
+                flight = new Flight(fnumber, airline, ffrom, fto, date, time, price, seat);
                 //booking = new Booking(bookingNumber, seat, flight, passenger);  /// Þarf að laga hér !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 
             }
@@ -123,8 +127,14 @@ public class DatabaseController{
         
         return booking;
     }
+    */
     
-    //Vantar að upfæra sætin
+
+    /**
+     * Insert booking into the database.
+     * @param booking booking to put into the database.
+     * @return 
+     */
     public boolean bookBooking(Booking booking){
         //For booking
         String bookingNumber; // Booking and Ticket
@@ -143,15 +153,12 @@ public class DatabaseController{
         String fFrom;
         
         SeatCoder seatCoder = new SeatCoder();
-        
-        
-        
 
         try{
             //Inserting into Booking
             pstmt = conn.prepareStatement(SQL_INSERTBOOKING);
             bookingNumber = booking.getBookingNumber();
-            tickets = booking.getTickets().length;
+            tickets = booking.getTickets().size();
             pstmt.clearParameters();
             pstmt.setString(1, bookingNumber);
             pstmt.setString(2, Integer.toString(tickets));
@@ -174,12 +181,12 @@ public class DatabaseController{
                 pstmt.setString(3, Integer.toString(0));
                 pstmt.execute();
                 
-//                //Increment numberOfTickets by 1
+                //Increment numberOfTickets by 1
                 pstmt = conn.prepareStatement(SQL_INCREMENTTICKETCOUNT);
                 pstmt.clearParameters();
                 pstmt.setString(1, kt);
                 pstmt.execute();
-//                
+                
                 //Inserting Ticket for passenger
                 pstmt = conn.prepareStatement(SQL_INSERTTICKET);
                 seat = i.getSeat();
@@ -203,7 +210,6 @@ public class DatabaseController{
                 System.out.println(seatCoder.getSeatcode());
                 seatCoder.reserveSeat(seat);
                 i.getFlight().setSeats(seatCoder.getSeatcode());
-                //System.out.println(seat);
                 System.out.println(seatCoder.getSeatcode());
                 pstmt = conn.prepareStatement(SQL_UPDATESEATS);
                 pstmt.clearParameters();
@@ -242,14 +248,14 @@ public class DatabaseController{
     public static void main( String[] args ){
         System.out.println("dad");
         DatabaseController DB = new DatabaseController();
-        ArrayList<Flight> list = DB.getFlights(LocalDate.of(2019, 01, 01));
+        ArrayList<Flight> list = DB.getFlights("Reykjavík", "Akureyri" ,LocalDate.of(2019, 01, 01));
         //Booking booking = DB.getBooking("1234");
-        //System.out.println(list);
+        System.out.println(list);
         //System.out.println(booking);
         Flight flight1 = list.get(2);
-        Booking booking = new Booking("4321",new Ticket[]{new Ticket("1234", "2a", new Passenger("Agnar Petursson", "3004972929"), flight1), new Ticket("1234", "3a", new Passenger("Jon Jonsson", "2008972929"), flight1)});
-        System.out.println(booking);
-        DB.bookBooking(booking);
+        //Booking booking = new Booking("4321",new Ticket[]{new Ticket("1234", "2a", new Passenger("Agnar Petursson", "3004972929"), flight1), new Ticket("1234", "3a", new Passenger("Jon Jonsson", "2008972929"), flight1)});
+        //System.out.println(booking);
+        //DB.bookBooking(booking);
         
 
         

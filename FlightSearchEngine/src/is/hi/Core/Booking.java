@@ -5,6 +5,8 @@
  */
 package is.hi.Core;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Agnar Pétursson, Háskóli Íslands, agp11@hi.is
@@ -12,11 +14,10 @@ package is.hi.Core;
 public class Booking {
     
    private String bookingNumber;
-   private Ticket [] tickets;
+   private ArrayList<Ticket> tickets;
 
-    public Booking(String bookingNumber, Ticket [] tickets) {
+    public Booking(String bookingNumber) {
         this.bookingNumber = bookingNumber;
-        this.tickets = tickets;
     }
 
     /*
@@ -30,7 +31,7 @@ public class Booking {
         return bookingNumber;
     }
 
-    public Ticket[] getTickets() {
+    public ArrayList<Ticket> getTickets() {
         return tickets;
     }
     

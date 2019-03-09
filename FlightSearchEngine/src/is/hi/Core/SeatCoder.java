@@ -105,6 +105,9 @@ public class SeatCoder {
          code.reserveSeat("1c");
          System.out.println(code.getAvailableSeats());
          System.out.println(code.getSeatcode());
+         code.reserveSeat("2a");
+         System.out.println(code.getAvailableSeats());
+         System.out.println(code.getSeatcode());
          code.setseatcode("00000000001111111111");
          
          System.out.println(code.getAvailableSeats());
