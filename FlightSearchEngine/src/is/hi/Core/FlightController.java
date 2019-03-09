@@ -5,6 +5,7 @@
  */
 package is.hi.Core;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -18,21 +19,26 @@ public class FlightController {
     private ArrayList<Flight> filteredFlights;
     private DatabaseController db;
 
-    
-    public static ArrayList<Flight> searchForFlight(String from, String to, LocalDate date){
-        return null;
+      public void initializeControllers(DatabaseController db) {
+          this.db = db;
+    }
+      
+    public ArrayList<Flight> searchForFlight(String from, String to, LocalDate date){
+        loadedFlights = db.getFlights(from, to, date);
+        
+        return loadedFlights;
     }
     
-    public static void filterByPrice(int price){
+    public void filterByPrice(int price){
     }
     
-    public static void filterByTime(String time){
+    public void filterByTime(String time){
     }
     
-    public static void filterByAirline(String airline){
+    public void filterByAirline(String airline){
     }
     
-    public static void resetFilters(){
+    public void resetFilters(){
         
     }
     
@@ -60,6 +66,8 @@ public class FlightController {
     public void setDb(DatabaseController db) {
         this.db = db;
     }
+
+  
     
     
     

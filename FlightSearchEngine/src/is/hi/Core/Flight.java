@@ -77,7 +77,7 @@ public class Flight {
     
     @Override
     public String toString() {
-        return "Flight{" + "fNumber=" + fNumber + ", airline=" + airline + ", from=" + from + ", to=" + to + ", date=" + date + ", time=" + time + ", price=" + price + ", seats=" + seats + '}';
+        return fNumber + "      " + airline + "     " + from + "        " + to + "      " + date + "        " + time + "        " + price;
     }
     
     
