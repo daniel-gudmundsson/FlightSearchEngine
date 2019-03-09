@@ -14,18 +14,18 @@ import java.util.ArrayList;
 public class Booking {
     
    private String bookingNumber;
-   private ArrayList<Ticket> tickets;
+   private ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 
     public Booking(String bookingNumber) {
         this.bookingNumber = bookingNumber;
     }
 
-    /*
     @Override
     public String toString() {
-        return "Booking{" + "bookingNumber=" + bookingNumber + ", seat=" + seat + ", flight=" + flight + ", passenger=" + passenger + '}';
+        return "Booking{" + "bookingNumber=" + bookingNumber + ", tickets=" + tickets + '}';
     }
-    */
+
+
 
     public String getBookingNumber() {
         return bookingNumber;
@@ -34,6 +34,12 @@ public class Booking {
     public ArrayList<Ticket> getTickets() {
         return tickets;
     }
+
+    public void setTickets(ArrayList<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+    
+    
     
     
     

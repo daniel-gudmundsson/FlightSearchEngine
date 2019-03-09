@@ -23,6 +23,14 @@ public class Passenger {
     public String toString() {
         return "Passenger{" + "name=" + name + ", kt=" + kt + '}';
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getKt() {
+        return kt;
+    }
     
     
     
