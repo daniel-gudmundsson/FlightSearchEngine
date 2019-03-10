@@ -6,8 +6,10 @@
 package is.hi.Core;
 
 
+import is.hi.UI.MainController;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import javafx.fxml.FXML;
 
 /**
  *
@@ -18,18 +20,37 @@ public class FlightController {
     private ArrayList<Flight> loadedFlights;
     private ArrayList<Flight> filteredFlights;
     private DatabaseController db;
+    
+    @FXML
+    private MainController mainController;
 
-      public void initializeControllers(DatabaseController db) {
+      public void initializeControllers(MainController main, DatabaseController db) {
           this.db = db;
+          mainController = main;
     }
       
     public ArrayList<Flight> searchForFlight(String from, String to, LocalDate date){
+        
         loadedFlights = db.getFlights(from, to, date);
+        filteredFlights = new ArrayList<Flight>(loadedFlights); // Afrita loadedFlights
+        
         
         return loadedFlights;
     }
     
-    public void filterByPrice(int price){
+    // Í vinnslu
+    public ArrayList<Flight> filterByPrice(int price){
+        for(Flight f: filteredFlights)
+        {
+            if (f.getPrice() > price)
+            {
+                filteredFlights.remove(f);
+            }
+        }
+        System.out.println("Filter by price");
+        //mainController.setFilteredFlights(filteredFlights);
+        return filteredFlights;
+        
     }
     
     public void filterByTime(String time){
