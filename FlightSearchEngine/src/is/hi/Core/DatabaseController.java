@@ -174,7 +174,7 @@ public class DatabaseController{
         return booking;
     }
     
-    public void deleteBooking(String bookingNumber){
+    boolean deleteBooking(String bookingNumber){
         //Passenger
         String kt;
         String seat;
@@ -230,12 +230,11 @@ public class DatabaseController{
                 
                 
                 //Update seats for flight
-                seatCoder.setseatcode(i.getFlight().getSeats());
+                seatCoder.setFlight(i.getFlight());
                 seatCoder.cancelReservedSeat(seat);
-                i.getFlight().setSeats(seatCoder.getSeatcode());
                 pstmt = conn.prepareStatement(SQL_UPDATESEATS);
                 pstmt.clearParameters();
-                pstmt.setString(1, seatCoder.getSeatcode());
+                pstmt.setString(1, i.getFlight().getSeats());
                 pstmt.setString(2, fNumber);
                 pstmt.setString(3, fFrom);
                 pstmt.setString(4, date.toString());
@@ -249,8 +248,10 @@ public class DatabaseController{
             
             
             conn.commit();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         
     }
@@ -264,7 +265,7 @@ public class DatabaseController{
      * @param booking booking to put into the database.
      * @return 
      */
-    public boolean bookBooking(Booking booking){
+     boolean bookBooking(Booking booking){
         //For booking
         String bookingNumber; // Booking and Ticket
         int tickets;
@@ -333,12 +334,11 @@ public class DatabaseController{
                 pstmt.execute();
                 
                 //Insert reserved seats into flights
-                seatCoder.setseatcode(i.getFlight().getSeats());
+                seatCoder.setFlight(i.getFlight());
                 seatCoder.reserveSeat(seat);
-                i.getFlight().setSeats(seatCoder.getSeatcode());
                 pstmt = conn.prepareStatement(SQL_UPDATESEATS);
                 pstmt.clearParameters();
-                pstmt.setString(1, seatCoder.getSeatcode());
+                pstmt.setString(1, i.getFlight().getSeats());
                 pstmt.setString(2, fnumber);
                 pstmt.setString(3, fFrom);
                 pstmt.setString(4, date.toString());
@@ -358,7 +358,7 @@ public class DatabaseController{
     /**
      * Closes the connection to the database.
      */
-    public void closeConnection(){
+     void closeConnection(){
         try {
             conn.close();
         } catch (Exception e) {

@@ -20,11 +20,13 @@ public class SeatCoder {
     private int[] availableSeatsBinary = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
     private ArrayList<String> availableSeats = new ArrayList<>();
     private String seatcode;
+    private Flight flight;
 
 
     
-    public void setseatcode(String seatcode){
-        this.seatcode = seatcode;
+    public void setFlight(Flight flight){
+        this.seatcode = flight.getSeats();
+        this.flight = flight;
         int n = seatcode.length();
         resetAvailableSeatBinary();
         availableSeats.clear();
@@ -75,6 +77,7 @@ public class SeatCoder {
             code += availableSeatsBinary[i];
         }
         this.seatcode = code;
+        flight.setSeats(this.seatcode);
     }
     
     private void resetAvailableSeatBinary(){
@@ -85,11 +88,17 @@ public class SeatCoder {
         return availableSeats;
     }
 
-    public String getSeatcode() {
+    public Flight getFlight() {
+        return flight;
+    }
+    
+
+    private String getSeatcode() {
         return seatcode;
     }
+    
 
-    public int[] getAvailableSeatsBinary() {
+    private int[] getAvailableSeatsBinary() {
         return availableSeatsBinary;
     }
     
@@ -98,23 +107,7 @@ public class SeatCoder {
     
     
      public static void main( String[] args ){
-         SeatCoder code = new SeatCoder();
-         code.setseatcode("00000000000000000000");
-         System.out.println(code.getAvailableSeats());
-         System.out.println(code.getSeatcode());
-         code.reserveSeat("1c");
-         System.out.println(code.getAvailableSeats());
-         System.out.println(code.getSeatcode());
-         code.reserveSeat("2a");
-         System.out.println(code.getAvailableSeats());
-         System.out.println(code.getSeatcode());
-         code.setseatcode("00000000001111111111");
-         
-         System.out.println(code.getAvailableSeats());
-         System.out.println(code.getSeatcode());
-         code.reserveSeat("1c");
-         System.out.println(code.getAvailableSeats());
-         System.out.println(code.getSeatcode());
+        
          
      }
     

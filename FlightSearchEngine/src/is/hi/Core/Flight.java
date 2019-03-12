@@ -6,12 +6,13 @@
 package is.hi.Core;
 
 import java.time.*;
+import java.util.Objects;
 
 /**
  *
  * @author Agnar Pétursson, Háskóli Íslands, agp11@hi.is
  */
-public class Flight {
+public class Flight{
     
     private String fNumber;
     private String airline;
@@ -69,9 +70,46 @@ public class Flight {
         this.seats = seats;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Flight other = (Flight) obj;
+        if (!Objects.equals(this.fNumber, other.fNumber)) {
+            return false;
+        }
+        if (!Objects.equals(this.from, other.from)) {
+            return false;
+        }
+        if (!Objects.equals(this.date, other.date)) {
+            return false;
+        }
+        if (!Objects.equals(this.time, other.time)) {
+            return false;
+        }
+        return true;
+    }
+
     
     
-    
+    public Flight getCopy(){
+        Flight flight;
+        flight = new Flight(this.fNumber, this.airline, this.from, this.to, this.date, this.time, this.price, this.seats);
+        return flight;
+    }
     
     
     

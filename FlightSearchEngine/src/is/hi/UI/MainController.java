@@ -67,10 +67,10 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         flightController = new FlightController();
-        bookingController = new BookingController();
+       // bookingController = new BookingController();
         databaseController = new DatabaseController();
         
-        flightController.initializeControllers(databaseController);
+        //flightController.initializeControllers(databaseController);
         
         initalizeComboboxes();
     }  
