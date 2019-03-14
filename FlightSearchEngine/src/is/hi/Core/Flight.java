@@ -115,6 +115,13 @@ public class Flight{
     
     @Override
     public String toString() {
+        if (airline.equals("Falcon"))
+        {
+            return fNumber + "       " + airline + "     " + from + "        " + to + "      " + date + "        " + time + "        " + price;
+        }
+                
+                    
+                
         return fNumber + "      " + airline + "     " + from + "        " + to + "      " + date + "        " + time + "        " + price;
     }
     
