@@ -8,10 +8,13 @@ package is.hi.UI;
 import is.hi.Core.*;
 import is.hi.UI.*;
 import java.net.URL;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,8 +24,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javax.xml.datatype.DatatypeConfigurationException;
 
 /**
  * FXML Controller class
@@ -32,9 +37,9 @@ import javafx.scene.control.TextField;
 public class MainController implements Initializable {
 
     @FXML
-    private ComboBox<?> fromComboBox;
+    private ComboBox<String> fromComboBox;
     @FXML
-    private ComboBox<?> toComboBox;
+    private ComboBox<String> toComboBox;
     @FXML
     private DatePicker datePicker;
     @FXML
@@ -50,16 +55,23 @@ public class MainController implements Initializable {
     private DatabaseController databaseController;
     private BookingController bookingController;
     
+    @FXML
+    private TicketCreationDialogController tickeDialogController;
+    
     // Þessar þrjár línur eru í vinnslu
     private String [] airports = {"Reykjavík", "Akueryi", "Vestmanneyjar", "Ísafjörður", "Egilsstaðir"};
     private ArrayList<String> listOfAirports = new ArrayList<String>();
     private ObservableList<String> ob = FXCollections.observableArrayList(); 
+    
+    int activeIndex = -1;
     
     
     private ObservableList<Flight> loadedFlights;
     private String to;
     private String from;
     private LocalDate date;
+    @FXML
+    private Button bookFlightButton;
 
     /**
      * Initializes the controller class.
@@ -69,10 +81,12 @@ public class MainController implements Initializable {
         flightController = new FlightController();
        // bookingController = new BookingController();
         databaseController = new DatabaseController();
+        //tickeDialogController = new TicketCreationDialogController();
         
-        //flightController.initializeControllers(databaseController);
+        flightController.initializeControllers(this, databaseController);
         
         initalizeComboboxes();
+        initializeIndexControl();
     }  
 
     @FXML
@@ -97,9 +111,30 @@ public class MainController implements Initializable {
             ob.add(s);
         }
         
-        //ObservableList<String> ob = FXCollections.observableArrayList(listOfAirports);
-        //fromComboBox.setItems(ob);
+        ObservableList<String> ob = FXCollections.observableArrayList("Reykjavík", "Akueryi", "Vestmanneyjar", "Ísafjörður", "Egilsstaðir");
+        fromComboBox.setItems(ob);
+        toComboBox.setItems(ob);
         
+        
+    }
+
+    @FXML
+    private void createTicket(ActionEvent event){
+        tickeDialogController.addDialAndShow(flightListView.getItems().get(activeIndex));
+    }
+        /**
+     * Frumstillir listann
+     */
+    private void initializeIndexControl() {
+        MultipleSelectionModel<Flight> lsm = flightListView.getSelectionModel();
+        lsm.selectedItemProperty().addListener(new ChangeListener<Flight>() {
+            @Override
+            public void changed(ObservableValue<? extends Flight> observable, 
+                    Flight oldValue, Flight newValue) {
+                // Indexinn í listanum.             
+                activeIndex = lsm.getSelectedIndex();
+            }
+        });
     }
     
     
