@@ -91,8 +91,8 @@ public class MainController implements Initializable {
 
     @FXML
     private void searchHandler(ActionEvent event) {
-        from = "Reykjavík";//fromComboBox.getPromptText();
-        to = "Akureyri"; //toComboBox.getPromptText();
+        from = fromComboBox.getValue();
+        to = toComboBox.getValue();
         date = datePicker.getValue();
         
         loadedFlights = FXCollections.observableArrayList(flightController.searchForFlight(from, to, date));
@@ -111,7 +111,7 @@ public class MainController implements Initializable {
             ob.add(s);
         }
         
-        ObservableList<String> ob = FXCollections.observableArrayList("Reykjavík", "Akueryi", "Vestmanneyjar", "Ísafjörður", "Egilsstaðir");
+        ObservableList<String> ob = FXCollections.observableArrayList("Reykjavík", "Akureyri", "Vestmanneyjar", "Ísafjörður", "Egilsstaðir");
         fromComboBox.setItems(ob);
         toComboBox.setItems(ob);
         
@@ -120,7 +120,10 @@ public class MainController implements Initializable {
 
     @FXML
     private void createTicket(ActionEvent event){
-        tickeDialogController.addDialAndShow(flightListView.getItems().get(activeIndex));
+        Flight f = flightListView.getItems().get(activeIndex);
+        tickeDialogController.numberOfTickets(f);
+        //tickeDialogController.addDialAndShow(i);
+        //tickeDialogController.addDialAndShow(flightListView.getItems().get(activeIndex));
     }
         /**
      * Frumstillir listann
