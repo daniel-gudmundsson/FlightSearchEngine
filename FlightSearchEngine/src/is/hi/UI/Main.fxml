@@ -126,6 +126,7 @@
       </GridPane>
       <fx:include fx:id="tickeDialog" source="TicketCreationDialog.fxml" />
       <Button fx:id="bookFlightButton" layoutX="591.0" layoutY="374.0" mnemonicParsing="false" onAction="#createTicket" prefHeight="26.0" prefWidth="138.0" text="Book flight" />
+      <Button fx:id="cancelCartButton" layoutX="167.0" layoutY="640.0" mnemonicParsing="false" onAction="#cancelCartButtonHandler" prefHeight="26.0" prefWidth="98.0" text="Cancel" />
       <ScrollPane layoutX="166.0" layoutY="440.0" prefHeight="200.0" prefWidth="564.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="551.0">
@@ -135,5 +136,6 @@
             </AnchorPane>
         </content>
       </ScrollPane>
+      <Button fx:id="confirmCartButton" layoutX="599.0" layoutY="640.0" mnemonicParsing="false" onAction="#confirmCartButtonHandler" prefHeight="26.0" prefWidth="126.0" text="Confirm booking" />
    </children>
 </AnchorPane>

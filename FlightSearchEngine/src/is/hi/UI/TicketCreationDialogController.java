@@ -203,4 +203,8 @@ public class TicketCreationDialogController implements Initializable {
         bookingController = b;
     }
     
+    void initBookingController(BookingController b){
+        bookingController = b;
+    }
+    
 }

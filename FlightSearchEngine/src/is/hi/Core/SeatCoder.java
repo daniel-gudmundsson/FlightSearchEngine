@@ -35,9 +35,7 @@ public class SeatCoder {
                 availableSeats.add(SEAT[i]);
                 availableSeatsBinary[i] = 0;
             }
-        }
-
-        
+        }  
     }
     
     public void reserveSeat(String seat) {
@@ -103,6 +101,10 @@ public class SeatCoder {
     }
     
     
+    // Daníel bætti þessu við, gæti þurft að nota þetta
+    public String [] getSeatNames(){
+        return SEAT;
+    }
     
     
     

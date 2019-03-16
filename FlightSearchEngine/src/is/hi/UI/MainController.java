@@ -75,6 +75,10 @@ public class MainController implements Initializable {
     private Button bookFlightButton;
     @FXML
     private ListView<Ticket> cartListView;
+    @FXML
+    private Button cancelCartButton;
+    @FXML
+    private Button confirmCartButton;
 
     /**
      * Initializes the controller class.
@@ -143,6 +147,20 @@ public class MainController implements Initializable {
         cart = bookingController.getBooking().getTickets();
         cartListView.setItems(FXCollections.observableArrayList(cart));
         
+    }
+
+    @FXML
+    private void cancelCartButtonHandler(ActionEvent event) {
+        cart = new ArrayList<Ticket>();
+        cartListView.setItems(FXCollections.observableArrayList(cart));
+        bookingController = new BookingController(databaseController);
+        tickeDialogController.initBookingController(bookingController);
+        
+        
+    }
+
+    @FXML
+    private void confirmCartButtonHandler(ActionEvent event) {
     }
     
     
