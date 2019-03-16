@@ -32,7 +32,7 @@ public class BookingController {
     
     
     private String bookingNumberGen(){
-        return  String.valueOf((int) Math.random()*10000000);
+        return  String.valueOf((int) (Math.random()*10000000));
     }
     
     public void resetBooking(){

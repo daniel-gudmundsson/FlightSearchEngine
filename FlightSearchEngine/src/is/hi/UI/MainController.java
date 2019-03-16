@@ -61,7 +61,8 @@ public class MainController implements Initializable {
     // Þessar þrjár línur eru í vinnslu
     private String [] airports = {"Reykjavík", "Akueryi", "Vestmanneyjar", "Ísafjörður", "Egilsstaðir"};
     private ArrayList<String> listOfAirports = new ArrayList<String>();
-    private ObservableList<String> ob = FXCollections.observableArrayList(); 
+    private ObservableList<String> ob = FXCollections.observableArrayList();
+    private ArrayList<Ticket> cart;
     
     int activeIndex = -1;
     
@@ -72,6 +73,8 @@ public class MainController implements Initializable {
     private LocalDate date;
     @FXML
     private Button bookFlightButton;
+    @FXML
+    private ListView<Ticket> cartListView;
 
     /**
      * Initializes the controller class.
@@ -79,11 +82,12 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         flightController = new FlightController();
-       // bookingController = new BookingController();
         databaseController = new DatabaseController();
+        bookingController = new BookingController(databaseController);
         //tickeDialogController = new TicketCreationDialogController();
         
         flightController.initializeControllers(this, databaseController);
+        tickeDialogController.initializeControllers(this, bookingController);
         
         initalizeComboboxes();
         initializeIndexControl();
@@ -97,12 +101,7 @@ public class MainController implements Initializable {
         
         loadedFlights = FXCollections.observableArrayList(flightController.searchForFlight(from, to, date));
         
-        flightListView.setItems(loadedFlights);
-        
-        
-        
-        
-        
+        flightListView.setItems(loadedFlights);    
     }
 
     private void initalizeComboboxes() {
@@ -138,6 +137,12 @@ public class MainController implements Initializable {
                 activeIndex = lsm.getSelectedIndex();
             }
         });
+    }
+
+    void updateCart() {
+        cart = bookingController.getBooking().getTickets();
+        cartListView.setItems(FXCollections.observableArrayList(cart));
+        
     }
     
     

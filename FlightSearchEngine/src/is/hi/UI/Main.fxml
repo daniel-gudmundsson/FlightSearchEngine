@@ -5,6 +5,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Light.Distant?>
@@ -16,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="492.0" prefWidth="902.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="is.hi.UI.MainController">
+<AnchorPane id="AnchorPane" prefHeight="704.0" prefWidth="902.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="is.hi.UI.MainController">
    <children>
       <GridPane layoutX="167.0" layoutY="96.0" prefHeight="30.0" prefWidth="572.0">
         <columnConstraints>
@@ -125,5 +126,14 @@
       </GridPane>
       <fx:include fx:id="tickeDialog" source="TicketCreationDialog.fxml" />
       <Button fx:id="bookFlightButton" layoutX="591.0" layoutY="374.0" mnemonicParsing="false" onAction="#createTicket" prefHeight="26.0" prefWidth="138.0" text="Book flight" />
+      <ScrollPane layoutX="166.0" layoutY="440.0" prefHeight="200.0" prefWidth="564.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="551.0">
+               <children>
+                  <ListView fx:id="cartListView" prefHeight="200.0" prefWidth="546.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
    </children>
 </AnchorPane>
