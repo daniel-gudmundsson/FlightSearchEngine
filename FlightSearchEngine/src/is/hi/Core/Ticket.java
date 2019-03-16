@@ -60,6 +60,12 @@ public class Ticket {
     public Flight getFlight() {
         return flight;
     }
+
+    
+    @Override
+    public String toString() {
+        return bookingNumber + "    " + flight.getfNumber() + "     " + passenger.getName() + "   " + passenger.getKt() + "     " + flight.getFrom() + "     " + flight.getTo() + "     " + flight.getDate().toString();
+    }
     
     
     

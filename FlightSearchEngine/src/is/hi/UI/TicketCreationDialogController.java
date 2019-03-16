@@ -5,7 +5,11 @@
  */
 package is.hi.UI;
 
+import is.hi.Core.BookingController;
 import is.hi.Core.Flight;
+import is.hi.Core.Passenger;
+import is.hi.Core.SeatCoder;
+import is.hi.Core.Ticket;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Optional;
@@ -15,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -57,6 +62,9 @@ public class TicketCreationDialogController implements Initializable {
     
     @FXML
     private GridPane ticketGridPane;
+    @FXML
+    private MainController mainController;
+    private BookingController bookingController;
 
     /**
      * Initializes the controller class.
@@ -66,17 +74,25 @@ public class TicketCreationDialogController implements Initializable {
         // TODO
     }
     
-    public void initPane(int numTickets){
+    public void initPane(Flight f, int numTickets){
+        SeatCoder seatCoder = new SeatCoder();
+        seatCoder.setFlight(f);
+        //ticketGridPane.getChildren().remove(0);
         
-        System.out.println("Hello");
+        
         for(int i = 0; i<numTickets;i++)
         {
-         if(i != numTickets - 1)
-            ticketGridPane.addColumn(0, new TextField());
+//         if(i != numTickets - 1)
+//            ticketGridPane.addColumn(0, new TextField());
          
+         ObservableList<String> ob = FXCollections.observableArrayList(seatCoder.getAvailableSeats());
+         ticketGridPane.addRow(i, new TextField(), new TextField(), new ComboBox<String>(ob));
+         /*
          ticketGridPane.add(new TextField(), 0,i);
          ticketGridPane.add(new TextField(), 1,i);
-         ticketGridPane.add(new ComboBox<String>(), 2, i);
+         
+         ticketGridPane.add(new ComboBox<String>(ob), 2, i);
+         */
          
          
          
@@ -91,13 +107,7 @@ public class TicketCreationDialogController implements Initializable {
         d.setDialogPane(p);
         ObservableList<Integer> ob = FXCollections.observableArrayList(1,2,3,4,5,6,7,8,9);
         numberOfticketsComboBox.setItems(ob);
-            
-        
-        
-        
-        
-        
-        
+
         ButtonType next = new ButtonType("Next", 
                 ButtonBar.ButtonData.OK_DONE);
         d.getDialogPane().getButtonTypes().add(next);       
@@ -118,15 +128,18 @@ public class TicketCreationDialogController implements Initializable {
     }
 
     public void addDialAndShow(Flight flight, int numTickets){
-        initPane(numTickets);
+        initPane(flight, numTickets);
         DialogPane p = new DialogPane();
         ticketDialog.setVisible(true);
         p.setContent(ticketDialog);
         Dialog<ButtonType> d = new Dialog();
         d.setDialogPane(p);
-        ButtonType cancel = new ButtonType("cancel", 
+        ButtonType cancel = new ButtonType("Cancel", 
                 ButtonBar.ButtonData.CANCEL_CLOSE);
         d.getDialogPane().getButtonTypes().add(cancel);
+        ButtonType finish = new ButtonType("Finish", 
+                ButtonBar.ButtonData.OK_DONE);
+        d.getDialogPane().getButtonTypes().add(finish);   
         
         
         fNumberTextField.setText(flight.getfNumber());
@@ -138,7 +151,41 @@ public class TicketCreationDialogController implements Initializable {
         priceTextField.setText(""+flight.getPrice());
         
                 
-        d.showAndWait();
+        Optional<ButtonType> result = d.showAndWait();
+        if (result.get().getButtonData() == ButtonBar.ButtonData.OK_DONE)
+        {
+            ObservableList<Ticket> ob = FXCollections.observableArrayList();
+            for(int i = 0; i<numTickets;i++)
+            {
+                
+                String name = ((TextField) (ticketGridPane.getChildren().get(i*3 +0))).getText();
+                String ss = ((TextField) (ticketGridPane.getChildren().get(i*3 +1))).getText();
+                Passenger passenger = new Passenger(name, ss);
+                String seat = ((ComboBox<String>) (ticketGridPane.getChildren().get(i*3 +2))).getValue();
+                System.out.println(name + " " + ss + " " + seat);
+                
+                String bNumber = bookingController.getBookingNumber();
+                Ticket ticket = new Ticket(bNumber, seat, passenger, flight);
+                bookingController.addTicketToBooking(ticket);
+            }
+            while (ticketGridPane.getChildren().size() > 0) {
+            ticketGridPane.getChildren().remove(0);
+            }
+            while(ticketGridPane.getRowConstraints().size() > 0){
+                ticketGridPane.getRowConstraints().remove(0);
+            }
+
+            while(ticketGridPane.getColumnConstraints().size() > 0){
+                ticketGridPane.getColumnConstraints().remove(0);
+            }
+            /*
+            for(Node c : ticketGridPane.getChildren())
+            {
+                ticketGridPane.getChildren().remove(c);
+            }*/
+            mainController.updateCart();
+        }
+        
         //System.out.println("Hello");
         
     }
@@ -150,14 +197,10 @@ public class TicketCreationDialogController implements Initializable {
         
         addDialAndShow(f, i);
     }
-    /*
-    @FXML
-    private void confirmNumberOfTickets(ActionEvent event) {
-        int i = numberOfticketsComboBox.getValue();
-        numberOfTicketsDialog.setVisible(false);
-        
-        addDialAndShow(i);
+
+    void initializeControllers(MainController main, BookingController b) {
+        mainController = main;
+        bookingController = b;
     }
-    */
     
 }
