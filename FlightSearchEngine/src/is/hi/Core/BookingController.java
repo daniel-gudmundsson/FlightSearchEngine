@@ -23,6 +23,11 @@ public class BookingController {
     private ArrayList<Flight> activeFlights;
     private SeatCoder seatcoder = new SeatCoder();
 
+    /**
+     * Initialises the BookingController and establish a connection to the database.
+     * Creates an active booking with new booking number.
+     * @param db DatabaseController to use with the BookingController.
+     */
     public BookingController(DatabaseController db) {
         this.db = db;
         booking = new Booking(bookingNumberGen());
@@ -30,11 +35,19 @@ public class BookingController {
         activeFlights = new ArrayList<>();
     }
     
-    
+    /**
+     * Generates a random integer between 0 and 9999999.
+     * @return Random interger.
+     */
     private String bookingNumberGen(){
-        return  String.valueOf((int) Math.random()*10000000);
+        return  Integer.toString((int) (Math.random() * 10000000));
     }
     
+    /**
+     * Resets all formally made booking actions, all tickets will be lost.
+     * Creates a new active booking and a new booking number for that particular booking.
+     * Does not delete booking from the database.
+     */
     public void resetBooking(){
         for(Ticket i: booking.getTickets()){
             if(unaffectedFlights.contains(i.getFlight())){
@@ -46,6 +59,10 @@ public class BookingController {
         booking = new Booking(bookingNumberGen());
     }
     
+    /**
+     * Adds a ticket to active booking.
+     * @param ticket To be added to the active booking.
+     */
     public void addTicketToBooking(Ticket ticket){
         if(!unaffectedFlights.contains(ticket.getFlight())){
             unaffectedFlights.add(ticket.getFlight().getCopy());
@@ -69,19 +86,33 @@ public class BookingController {
          
     }
     
+    /**
+     * Returns the booking number for the active booking.
+     * @return booking number of active booking.
+     */
     public String getBookingNumber(){
         return booking.getBookingNumber();
     }
     
-    public boolean cancelBooking(Booking booking){
-        return db.deleteBooking(booking.getBookingNumber());
+    /**
+     * Removes booking from the database with a specific booking number.
+     * Return true if booking
+     * @param bookingNumber
+     * @return 
+     */
+    public boolean cancelBooking(String bookingNumber){
+        return db.deleteBooking(bookingNumber);
     }
     
     public boolean confirmBooking(){
         return db.bookBooking(this.booking);
     }
     
-
+    public Booking getBookingFromDB(String bookingNumber){
+        return db.getBooking(bookingNumber);
+    }
+            
+    
     public Booking getBooking() {
         return booking;
     }
@@ -99,23 +130,27 @@ public class BookingController {
     }
     
     public static void main( String[] args ){
-        BookingController BC = new BookingController(null);
-        Ticket midi1 = new Ticket(BC.getBookingNumber(), "1a", new Passenger("Agnar Petursson", "3004972929"), new Flight("FN123", "Icelandair", "RK", "KV", LocalDate.MAX, LocalTime.MIN, 1999, "00000000000000000000"));
-        Ticket midi2 = new Ticket(BC.getBookingNumber(), "2a", new Passenger("Jon Jonsson", "2901952929"), new Flight("FN123", "Icelandair", "RK", "KV", LocalDate.MAX, LocalTime.MIN, 1999, "001212312314"));
-        System.out.println(System.identityHashCode(midi1.getFlight()));
-        System.out.println(System.identityHashCode(midi2.getFlight()));
-        
+        DatabaseController db = new DatabaseController();
+        ArrayList<Flight> list = db.getFlights("Reykjavík", "Akureyri" ,LocalDate.of(2019, 01, 01));
+        Flight flight1 = list.get(2);
+        BookingController BC = new BookingController(db);
+        Ticket midi1 = new Ticket(BC.getBookingNumber(), "1a", new Passenger("Agnar Petursson", "3004972929"), flight1);
+        Ticket midi2 = new Ticket(BC.getBookingNumber(), "2a", new Passenger("Jon Jonsson", "2901952929"), flight1);
         
         BC.addTicketToBooking(midi1);
-        System.out.println(midi1.getFlight().getSeats());
         BC.addTicketToBooking(midi2);
-        System.out.println(midi2.getFlight().getSeats());
+       // BC.confirmBooking();
         
         BC.resetBooking();
-        System.out.println(midi1.getFlight().getSeats());
-        System.out.println(midi2.getFlight().getSeats());
+        list = db.getFlights("Reykjavík", "Akureyri" ,LocalDate.of(2019, 01, 01));
+        flight1 = list.get(2);
+        Ticket midi3 = new Ticket(BC.getBookingNumber(), "3a", new Passenger("Magnus Jon", "2904972929"), flight1);
+        Ticket midi4 = new Ticket(BC.getBookingNumber(), "3b", new Passenger("Agnes Magnusdottir", "0101942929"), flight1);
         
+        BC.addTicketToBooking(midi3);
+        BC.addTicketToBooking(midi4);
         
+        //BC.confirmBooking();
         
     }
     

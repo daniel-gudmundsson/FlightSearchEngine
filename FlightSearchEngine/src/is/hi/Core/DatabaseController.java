@@ -334,8 +334,6 @@ public class DatabaseController{
                 pstmt.execute();
                 
                 //Insert reserved seats into flights
-                seatCoder.setFlight(i.getFlight());
-                seatCoder.reserveSeat(seat);
                 pstmt = conn.prepareStatement(SQL_UPDATESEATS);
                 pstmt.clearParameters();
                 pstmt.setString(1, i.getFlight().getSeats());

@@ -45,7 +45,7 @@ public class SeatCoder {
             availableSeats.remove(seat);
             updateSeatcode();
         }else{
-            System.err.println("Seat not reserved, is not available");
+            System.err.println("Seat reserved, is not available");
         }
     }
     
