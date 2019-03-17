@@ -156,11 +156,16 @@ public class MainController implements Initializable {
         bookingController = new BookingController(databaseController);
         tickeDialogController.initBookingController(bookingController);
         
+        // Uppfæri listann af flugum sem leitin sýni svo sætin séu rétt
+        loadedFlights = FXCollections.observableArrayList(flightController.searchForFlight(from, to, date));
+        
+        flightListView.setItems(loadedFlights);  
         
     }
 
     @FXML
     private void confirmCartButtonHandler(ActionEvent event) {
+        
     }
     
     

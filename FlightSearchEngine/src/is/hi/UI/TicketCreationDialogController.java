@@ -105,7 +105,13 @@ public class TicketCreationDialogController implements Initializable {
         p.setContent(numberOfTicketsDialog);
         Dialog<ButtonType> d = new Dialog();
         d.setDialogPane(p);
-        ObservableList<Integer> ob = FXCollections.observableArrayList(1,2,3,4,5,6,7,8,9);
+        SeatCoder seatCoder = new SeatCoder();
+        seatCoder.setFlight(f);
+        ObservableList<Integer> ob = FXCollections.observableArrayList();
+        for(int i = 1; i<=seatCoder.getAvailableSeats().size(); i++)
+        {
+            ob.add(i);
+        }
         numberOfticketsComboBox.setItems(ob);
 
         ButtonType next = new ButtonType("Next", 
