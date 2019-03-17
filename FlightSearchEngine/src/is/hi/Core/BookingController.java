@@ -61,7 +61,7 @@ public class BookingController {
     
     /**
      * Adds a ticket to active booking.
-     * @param ticket To be added to the active booking.
+     * @param ticket to be added to the active booking.
      */
     public void addTicketToBooking(Ticket ticket){
         if(!unaffectedFlights.contains(ticket.getFlight())){
@@ -96,38 +96,56 @@ public class BookingController {
     
     /**
      * Removes booking from the database with a specific booking number.
-     * Return true if booking
-     * @param bookingNumber
-     * @return 
+     * Returns true if the booking was in database
+     * and deletion was done successfully else returns false.
+     * @param bookingNumber of booking to be deleted from the database.
+     * @return true if deletion was done successfully.
      */
     public boolean cancelBooking(String bookingNumber){
         return db.deleteBooking(bookingNumber);
     }
     
+    /**
+     * Save active booking to the database. If the booking was saved successfully,
+     * the active booking will be reset and a new booking made (with a new booking number). 
+     * Will return true if successful else false.
+     * @return true if successful else false.
+     */
     public boolean confirmBooking(){
-        return db.bookBooking(this.booking);
+        boolean b = db.bookBooking(this.booking);
+        if(b){
+            resetBooking();   
+        }
+        return b;
+        
     }
     
+    /**
+     * Gets booking with a specific booking number from the database.
+     * @param bookingNumber of the booking to get from the database.
+     * @return booking with given booking number.
+     */
     public Booking getBookingFromDB(String bookingNumber){
         return db.getBooking(bookingNumber);
     }
             
     
+    /**
+     * Gets and return active booking.
+     * @return active booking.
+     */
     public Booking getBooking() {
         return booking;
     }
 
-    public void setBooking(Booking booking) {
-        this.booking = booking;
-    }
-
+    /**
+     * Gets and returns DatabaseController attached to the BookingController.
+     * @return attached databaseController.
+     */
     public DatabaseController getDb() {
         return db;
     }
 
-    public void setDb(DatabaseController db) {
-        this.db = db;
-    }
     
     public static void main( String[] args ){
         DatabaseController db = new DatabaseController();
