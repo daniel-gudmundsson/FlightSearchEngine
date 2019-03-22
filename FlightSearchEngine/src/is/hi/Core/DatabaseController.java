@@ -364,27 +364,57 @@ public class DatabaseController{
         }
     }
     
-    
-    public static void main( String[] args ){
-        DatabaseController DB = new DatabaseController();
-        ArrayList<Flight> list = DB.getFlights("Reykjavík", "Akureyri" ,LocalDate.of(2019, 01, 01));
-        System.out.println(list);
-        //System.out.println(booking);
-        Flight flight1 = list.get(2);
-        Booking booking = new Booking("4321");
-        ArrayList<Ticket> listi = booking.getTickets();
-        Ticket e = new Ticket("1234", "2a", new Passenger("Agnar Petursson", "3004972929"), flight1);
-        Ticket e1 = new Ticket("1234", "3a", new Passenger("Jon Jonsson", "2008972929"), flight1);
-        listi.add(e);
-        listi.add(e1);
-        booking.setTickets(listi);
-        System.out.println(DB.getBooking("4321"));
-        DB.bookBooking(booking);
-        System.out.println(DB.getBooking("4321"));
-        DB.deleteBooking("4321");
-        System.out.println(DB.getBooking("4321"));
-        
+     
+     static void testBooking() throws SQLException{
+         DatabaseController db = new DatabaseController();
+         String stmt = "SELECT * FROM Booking";
+         PreparedStatement p = db.conn.prepareStatement(stmt);
+         ResultSet rs = p.executeQuery();
 
+         while(rs.next())
+         {
+           String fNumber = rs.getString(2);
+         LocalDate date = LocalDate.parse(rs.getString(3));
+         LocalTime time = LocalTime.parse(rs.getString(4));
+         String fFrom = rs.getString(5);
+         String kt = rs.getString(6);
+         String bookingN = rs.getString(7);
+         String seat = rs.getString(8);
+         String name = rs.getString(9);
+         String airline = rs.getString(10);
+         String fTo = rs.getString(11);
+         int price = Integer.parseInt(rs.getString(12));
+         String seats = rs.getString(13);  
+         
+         System.out.println(name);
+         System.out.println("Hello");
+         }
+         
+     }
+     
+    
+    public static void main( String[] args ) throws SQLException{
+        DatabaseController DB = new DatabaseController();
+//        ArrayList<Flight> list = DB.getFlights("Reykjavík", "Akureyri" ,LocalDate.of(2019, 01, 01));
+//        System.out.println(list);
+//        //System.out.println(booking);
+//        Flight flight1 = list.get(2);
+//        Booking booking = new Booking("4321");
+//        ArrayList<Ticket> listi = booking.getTickets();
+//        Ticket e = new Ticket("1234", "2a", new Passenger("Agnar Petursson", "3004972929"), flight1);
+//        Ticket e1 = new Ticket("1234", "3a", new Passenger("Jon Jonsson", "2008972929"), flight1);
+//        listi.add(e);
+//        listi.add(e1);
+//        booking.setTickets(listi);
+//        System.out.println(DB.getBooking("4321"));
+//        DB.bookBooking(booking);
+//        System.out.println(DB.getBooking("4321"));
+//        DB.deleteBooking("4321");
+//        System.out.println(DB.getBooking("4321"));
+//        
+        
+        //testBooking();
+        System.out.println("Hello");
         DB.closeConnection();
         
         

@@ -137,5 +137,6 @@
         </content>
       </ScrollPane>
       <Button fx:id="confirmCartButton" layoutX="599.0" layoutY="640.0" mnemonicParsing="false" onAction="#confirmCartButtonHandler" prefHeight="26.0" prefWidth="126.0" text="Confirm booking" />
+      <Button fx:id="deleteTicketButton" layoutX="283.0" layoutY="641.0" mnemonicParsing="false" onAction="#deleteTicketHandler" prefHeight="26.0" prefWidth="80.0" text="Delete ticket" />
    </children>
 </AnchorPane>

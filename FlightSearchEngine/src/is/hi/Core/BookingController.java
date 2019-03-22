@@ -105,6 +105,11 @@ public class BookingController {
         return db.deleteBooking(bookingNumber);
     }
     
+    // Er ekki viss um að þetta virki, Agnar skoða !!!!
+    public void deleteTicket(Ticket ticket){
+        booking.getTickets().remove(ticket);
+    }
+    
     /**
      * Save active booking to the database. If the booking was saved successfully,
      * the active booking will be reset and a new booking made (with a new booking number). 

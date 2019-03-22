@@ -56,7 +56,7 @@ public class MainController implements Initializable {
     private BookingController bookingController;
     
     @FXML
-    private TicketCreationDialogController tickeDialogController;
+    private TicketCreationDialogController tickeDialogController; // Þarf alltaf að vera @FXML fyrir ofan þetta
     
     // Þessar þrjár línur eru í vinnslu
     private String [] airports = {"Reykjavík", "Akueryi", "Vestmanneyjar", "Ísafjörður", "Egilsstaðir"};
@@ -65,6 +65,7 @@ public class MainController implements Initializable {
     private ArrayList<Ticket> cart;
     
     int activeIndex = -1;
+    int cartIndex = -1;
     
     
     private ObservableList<Flight> loadedFlights;
@@ -79,6 +80,8 @@ public class MainController implements Initializable {
     private Button cancelCartButton;
     @FXML
     private Button confirmCartButton;
+    @FXML
+    private Button deleteTicketButton;
 
     /**
      * Initializes the controller class.
@@ -95,6 +98,7 @@ public class MainController implements Initializable {
         
         initalizeComboboxes();
         initializeIndexControl();
+        initializeIndexControlCart();
     }  
 
     @FXML
@@ -142,6 +146,18 @@ public class MainController implements Initializable {
             }
         });
     }
+    
+    private void initializeIndexControlCart() {
+        MultipleSelectionModel<Ticket> lsmC = cartListView.getSelectionModel();
+        lsmC.selectedItemProperty().addListener(new ChangeListener<Ticket>() {
+            @Override
+            public void changed(ObservableValue<? extends Ticket> observable, 
+                    Ticket oldValue, Ticket newValue) {
+                // Indexinn í listanum.             
+                cartIndex = lsmC.getSelectedIndex();
+            }
+        });
+    }
 
     void updateCart() {
         cart = bookingController.getBooking().getTickets();
@@ -153,8 +169,10 @@ public class MainController implements Initializable {
     private void cancelCartButtonHandler(ActionEvent event) {
         cart = new ArrayList<Ticket>();
         cartListView.setItems(FXCollections.observableArrayList(cart));
-        bookingController = new BookingController(databaseController);
-        tickeDialogController.initBookingController(bookingController);
+        
+        bookingController.resetBooking();
+//        bookingController = new BookingController(databaseController);
+//        tickeDialogController.initBookingController(bookingController);
         
         // Uppfæri listann af flugum sem leitin sýni svo sætin séu rétt
         loadedFlights = FXCollections.observableArrayList(flightController.searchForFlight(from, to, date));
@@ -165,6 +183,22 @@ public class MainController implements Initializable {
 
     @FXML
     private void confirmCartButtonHandler(ActionEvent event) {
+        bookingController.confirmBooking();
+        cart = new ArrayList<Ticket>();
+        cartListView.setItems(FXCollections.observableArrayList(cart));
+        
+    }
+
+    @FXML
+    private void deleteTicketHandler(ActionEvent event) {
+        Ticket ticket = cartListView.getItems().get(cartIndex);
+        cartListView.getItems().remove(ticket);
+        bookingController.deleteTicket(ticket);
+        updateCart();
+        
+        loadedFlights = FXCollections.observableArrayList(flightController.searchForFlight(from, to, date));
+        
+        flightListView.setItems(loadedFlights); 
         
     }
     
