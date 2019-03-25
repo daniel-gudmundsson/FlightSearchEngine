@@ -107,6 +107,8 @@ public class BookingController {
     
     // Er ekki viss um að þetta virki, Agnar skoða !!!!
     public void deleteTicket(Ticket ticket){
+        seatcoder.setFlight(ticket.getFlight());
+        seatcoder.cancelReservedSeat(ticket.getSeat());
         booking.getTickets().remove(ticket);
     }
     
@@ -172,11 +174,16 @@ public class BookingController {
         ArrayList<Flight> list = db.getFlights("Reykjavík", "Akureyri" ,LocalDate.of(2019, 01, 01));
         Flight flight1 = list.get(2);
         BookingController BC = new BookingController(db);
+        System.out.println(BC.getAvailableSeats(flight1));
         Ticket midi1 = new Ticket(BC.getBookingNumber(), "1a", new Passenger("Agnar Petursson", "3004972929"), flight1);
-        Ticket midi2 = new Ticket(BC.getBookingNumber(), "2a", new Passenger("Jon Jonsson", "2901952929"), flight1);
+        
         
         BC.addTicketToBooking(midi1);
+        Flight flight2 = list.get(2);
+        System.out.println(BC.getAvailableSeats(flight2));
+        Ticket midi2 = new Ticket(BC.getBookingNumber(), "2a", new Passenger("Jon Jonsson", "2901952929"), flight2);
         BC.addTicketToBooking(midi2);
+        System.out.println(BC.getAvailableSeats(flight2));
        // BC.confirmBooking();
         
         BC.resetBooking();

@@ -76,7 +76,7 @@ public class TicketCreationDialogController implements Initializable {
     
     public void initPane(Flight f, int numTickets){
         SeatCoder seatCoder = new SeatCoder();
-        seatCoder.setFlight(f);
+        //seatCoder.setFlight(f);
         //ticketGridPane.getChildren().remove(0);
         
         
@@ -84,8 +84,8 @@ public class TicketCreationDialogController implements Initializable {
         {
 //         if(i != numTickets - 1)
 //            ticketGridPane.addColumn(0, new TextField());
-         
-         ObservableList<String> ob = FXCollections.observableArrayList(seatCoder.getAvailableSeats());
+         //Agnar Breytti hér seatCoder i bookingCOntroller
+         ObservableList<String> ob = FXCollections.observableArrayList(bookingController.getAvailableSeats(f));
          ticketGridPane.addRow(i, new TextField(), new TextField(), new ComboBox<String>(ob));
          /*
          ticketGridPane.add(new TextField(), 0,i);
@@ -106,9 +106,10 @@ public class TicketCreationDialogController implements Initializable {
         Dialog<ButtonType> d = new Dialog();
         d.setDialogPane(p);
         SeatCoder seatCoder = new SeatCoder();
-        seatCoder.setFlight(f);
+        //seatCoder.setFlight(f);
         ObservableList<Integer> ob = FXCollections.observableArrayList();
-        for(int i = 1; i<=seatCoder.getAvailableSeats().size(); i++)
+        //Agnar Breytti hér seatCoder i bookingCOntroller
+        for(int i = 1; i<=bookingController.getAvailableSeats(f).size(); i++)
         {
             ob.add(i);
         }
