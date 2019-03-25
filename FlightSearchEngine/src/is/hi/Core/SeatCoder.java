@@ -24,7 +24,7 @@ public class SeatCoder {
 
 
     
-    public void setFlight(Flight flight){
+    void setFlight(Flight flight){
         this.seatcode = flight.getSeats();
         this.flight = flight;
         int n = seatcode.length();
@@ -38,7 +38,7 @@ public class SeatCoder {
         }  
     }
     
-    public void reserveSeat(String seat) {
+     void reserveSeat(String seat) {
         if (isAvailable(seat)) {
             availableSeats.remove(seat);
             updateSeatcode();
@@ -47,7 +47,7 @@ public class SeatCoder {
         }
     }
     
-    public void cancelReservedSeat(String seat){
+    void cancelReservedSeat(String seat){
         if(!isAvailable(seat)){
             availableSeats.add(seat);
             updateSeatcode();   
@@ -82,11 +82,11 @@ public class SeatCoder {
         availableSeatsBinary = new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
     }
 
-    public ArrayList<String> getAvailableSeats() {
+    ArrayList<String> getAvailableSeats() {
         return availableSeats;
     }
 
-    public Flight getFlight() {
+    Flight getFlight() {
         return flight;
     }
     

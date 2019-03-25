@@ -150,6 +150,21 @@ public class BookingController {
     public DatabaseController getDb() {
         return db;
     }
+    
+    public ArrayList<String> getAvailableSeats(Flight flight){
+        if(!unaffectedFlights.contains(flight)){
+            unaffectedFlights.add(flight.getCopy());
+        }
+        
+        if(!activeFlights.contains(flight)){
+            activeFlights.add(flight);
+        }
+        
+        seatcoder.setFlight(activeFlights.get(activeFlights.indexOf(flight)));
+        
+        return seatcoder.getAvailableSeats();
+        
+    }
 
     
     public static void main( String[] args ){
