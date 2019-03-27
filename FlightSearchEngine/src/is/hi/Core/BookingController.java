@@ -171,6 +171,9 @@ public class BookingController {
     
     public static void main( String[] args ){
         DatabaseController db = new DatabaseController();
+        BookingController BC = new BookingController(db);
+        BC.cancelBooking("8474962");
+        /*
         ArrayList<Flight> list = db.getFlights("Reykjavík", "Akureyri" ,LocalDate.of(2019, 01, 01));
         Flight flight1 = list.get(2);
         BookingController BC = new BookingController(db);
@@ -194,6 +197,7 @@ public class BookingController {
         
         BC.addTicketToBooking(midi3);
         BC.addTicketToBooking(midi4);
+        */
         
         //BC.confirmBooking();
         

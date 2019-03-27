@@ -20,6 +20,11 @@ public class FlightController {
     private ArrayList<Flight> loadedFlights;
     private ArrayList<Flight> filteredFlights;
     private DatabaseController db;
+
+    public FlightController(DatabaseController db) {
+        this.db = db;
+    }
+    
     
     @FXML
     private MainController mainController;

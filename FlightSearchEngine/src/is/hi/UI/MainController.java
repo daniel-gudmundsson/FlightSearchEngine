@@ -88,7 +88,7 @@ public class MainController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        flightController = new FlightController();
+        flightController = new FlightController(databaseController);
         databaseController = new DatabaseController();
         bookingController = new BookingController(databaseController);
         //tickeDialogController = new TicketCreationDialogController();
@@ -118,7 +118,7 @@ public class MainController implements Initializable {
             ob.add(s);
         }
         
-        ObservableList<String> ob = FXCollections.observableArrayList("Reykjavík", "Akureyri", "Vestmanneyjar", "Ísafjörður", "Egilsstaðir");
+        ObservableList<String> ob = FXCollections.observableArrayList("Reykjavík", "Akureyri", "Vestmannaeyjar", "Ísafjörður", "Egilsstaðir");
         fromComboBox.setItems(ob);
         toComboBox.setItems(ob);
         

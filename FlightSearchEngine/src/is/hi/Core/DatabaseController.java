@@ -58,7 +58,7 @@ public class DatabaseController{
     
     
     /**
-     * Gets all flights from the database with a specific laaaaaaaaaagggggggggggaaaaaaaaaa.
+     * Gets all flights from the database with a specific 
      * @param date specific date.
      * @return List of all flights with a specific date.
      */
@@ -395,6 +395,7 @@ public class DatabaseController{
     
     public static void main( String[] args ) throws SQLException{
         DatabaseController DB = new DatabaseController();
+        
 //        ArrayList<Flight> list = DB.getFlights("Reykjavík", "Akureyri" ,LocalDate.of(2019, 01, 01));
 //        System.out.println(list);
 //        //System.out.println(booking);
