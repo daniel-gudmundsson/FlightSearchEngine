@@ -6,14 +6,18 @@
 package is.hi.Core;
 
 import is.hi.UI.MainController;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.rules.ExpectedException;
 
 /**
  *
@@ -24,12 +28,16 @@ public class FlightControllerTest {
     DatabaseController db;
     FlightController flightController;
     
-    public FlightControllerTest() {
-    }
     
     @Before
     public void setUp() {
-        db = new DatabaseController();
+        try {
+            db = new DatabaseController();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FlightControllerTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(FlightControllerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         flightController = new FlightController(db);
     }
     
@@ -50,8 +58,12 @@ public class FlightControllerTest {
         String from = "Reykjavík";
         String to = "Akureyri";
         LocalDate date = LocalDate.of(2019, 01, 01);
-        ArrayList<Flight> result = flightController.searchForFlight(from, to, date);
-        assertTrue(!result.isEmpty());
+        try {
+            ArrayList<Flight> result = flightController.searchForFlight(from, to, date);
+            assertTrue(!result.isEmpty());
+        } catch (SQLException ex) {
+            fail("Exception should not be thrown");
+        }
     }
     
     @Test
@@ -60,8 +72,41 @@ public class FlightControllerTest {
         String from = "Narnia";
         String to = "Mordor";
         LocalDate date = LocalDate.of(2019, 01, 01);
+        ArrayList<Flight> result;
+        
+        try {
+            result = flightController.searchForFlight(from, to, date);
+            assertTrue(result.isEmpty());
+        } catch (SQLException ex) {
+            fail("Exception should not be thrown");
+        }
+    }
+    
+    
+    
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testNullSearchForFlight() throws IllegalArgumentException, SQLException  {
+        System.out.println("Searching for a flight with all arguments as null.");
+       
+        String from = null;
+        String to = null;
+        LocalDate date = null;
         ArrayList<Flight> result = flightController.searchForFlight(from, to, date);
-        assertTrue(result.isEmpty());
+    }
+    
+    @Test
+    public void test4AvailableSearchForFlight() {
+        System.out.println("Searching for an existing flight and checking if 4 flights are available");
+        String from = "Reykjavík";
+        String to = "Akureyri";
+        LocalDate date = LocalDate.of(2019, 01, 01);
+        try {
+            ArrayList<Flight> result = flightController.searchForFlight(from, to, date);
+            assertTrue(result.size() == 4);
+        } catch (SQLException ex) {
+            fail("Exception should not be thrown");
+        }
     }
 
 

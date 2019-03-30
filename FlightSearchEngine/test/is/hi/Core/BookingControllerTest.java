@@ -17,7 +17,7 @@ import org.junit.Before;
  * @author Agnar Pétursson, Háskóli Íslands, agp11@hi.is
  */
 public class BookingControllerTest {
-    
+    /*
     DatabaseController db;
     BookingController bookingController;
     String bookingNumber = "";
@@ -64,6 +64,6 @@ public class BookingControllerTest {
         
     }
 
-    
+    */
     
 }

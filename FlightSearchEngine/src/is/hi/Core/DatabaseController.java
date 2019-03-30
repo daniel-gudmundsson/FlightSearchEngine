@@ -42,18 +42,16 @@ public class DatabaseController{
 
                                   
     
-    /**
-     * Establish a connection to the database
-     */
-    public DatabaseController() {
-        try{
+ /**
+  * Establish a connection to the database
+  * @throws ClassNotFoundException
+  * @throws SQLException 
+  */
+    public DatabaseController() throws ClassNotFoundException, SQLException {
             Class.forName("com.mysql.jdbc.Driver"); 
             conn = DriverManager.getConnection(SQL_URL,SQL_USER,SQL_PASSWORD);
             conn.setAutoCommit(false);
-        }catch (Exception e){
-            System.err.print("Error establishing a database connection");
-            e.printStackTrace();
-        }
+        
     }
     
     
@@ -62,10 +60,10 @@ public class DatabaseController{
      * @param date specific date.
      * @return List of all flights with a specific date.
      */
-    public ArrayList<Flight> getFlights(String from, String to, LocalDate date){
+    public ArrayList<Flight> getFlights(String from, String to, LocalDate date) throws SQLException{
         ArrayList<Flight> list = new ArrayList<Flight>();
         Flight flight;
-        try {
+
             pstmt = conn.prepareStatement(SQL_GETFLIGHTS);
             
             pstmt.clearParameters();
@@ -89,9 +87,7 @@ public class DatabaseController{
                 list.add(flight);
             }
             rs.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         return list;
     }
     
@@ -100,7 +96,7 @@ public class DatabaseController{
      * @param bookingNumber Booking number to look up in the database.
      * @return booking with bookingNumber. Returns null if booking with bookingNumber does not exist.
      */
-    public Booking getBooking(String bookingNumber){
+    public Booking getBooking(String bookingNumber) throws SQLException{
         Booking booking = null;
         Passenger passenger;
         Ticket ticket;
@@ -126,7 +122,7 @@ public class DatabaseController{
         String kt;
         
         
-        try {
+
             pstmt = conn.prepareStatement(SQL_GETBOOKING);
             
             pstmt.clearParameters();
@@ -167,14 +163,12 @@ public class DatabaseController{
             }
             
             rs.close(); 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         
         return booking;
     }
     
-    boolean deleteBooking(String bookingNumber){
+    boolean deleteBooking(String bookingNumber) throws SQLException{
         //Passenger
         String kt;
         String seat;
@@ -191,8 +185,7 @@ public class DatabaseController{
         Booking booking = getBooking(bookingNumber);
         
         
-        try {
-            
+
             for(Ticket i: booking.getTickets()){
                 //Get information from booking
                 kt = i.getPassenger().getKt();
@@ -249,10 +242,7 @@ public class DatabaseController{
             
             conn.commit();
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+
         
     }
     
@@ -265,7 +255,7 @@ public class DatabaseController{
      * @param booking booking to put into the database.
      * @return 
      */
-     boolean bookBooking(Booking booking){
+     boolean bookBooking(Booking booking) throws SQLException{
         //For booking
         String bookingNumber; // Booking and Ticket
         int tickets;
@@ -284,7 +274,7 @@ public class DatabaseController{
         
         SeatCoder seatCoder = new SeatCoder();
 
-        try{
+
             //Inserting into Booking
             pstmt = conn.prepareStatement(SQL_INSERTBOOKING);
             bookingNumber = booking.getBookingNumber();
@@ -345,10 +335,6 @@ public class DatabaseController{
             }            
         conn.commit();
         return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
            
     }
     
@@ -364,7 +350,7 @@ public class DatabaseController{
         }
     }
     
-     
+     /*
      static void testBooking() throws SQLException{
          DatabaseController db = new DatabaseController();
          String stmt = "SELECT * FROM Booking";
@@ -391,10 +377,11 @@ public class DatabaseController{
          }
          
      }
+*/
      
     
     public static void main( String[] args ) throws SQLException{
-        DatabaseController DB = new DatabaseController();
+      //  DatabaseController DB = new DatabaseController();
         
 //        ArrayList<Flight> list = DB.getFlights("Reykjavík", "Akureyri" ,LocalDate.of(2019, 01, 01));
 //        System.out.println(list);
@@ -415,8 +402,8 @@ public class DatabaseController{
 //        
         
         //testBooking();
-        System.out.println("Hello");
-        DB.closeConnection();
+       // System.out.println("Hello");
+       // DB.closeConnection();
         
         
     }

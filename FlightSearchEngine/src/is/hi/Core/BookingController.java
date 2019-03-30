@@ -5,6 +5,7 @@
  */
 package is.hi.Core;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -25,8 +26,10 @@ public class BookingController {
 
     /**
      * Initialises the BookingController and establish a connection to the database.
-     * Creates an active booking with new booking number.
-     * @param db DatabaseController to use with the BookingController.
+     * Creates an active booking with new booking number. 
+     * Active booking is the booking that the bookingController will do 
+     * actions to when functions are called, e.g. adding tickets.
+     * @param db DatabaseController to use with the BookingController, can not be null.
      */
     public BookingController(DatabaseController db) {
         this.db = db;
@@ -61,7 +64,7 @@ public class BookingController {
     
     /**
      * Adds a ticket to active booking.
-     * @param ticket to be added to the active booking.
+     * @param ticket to be added to the active booking, can not be null.
      */
     public void addTicketToBooking(Ticket ticket){
         if(!unaffectedFlights.contains(ticket.getFlight())){
@@ -101,11 +104,14 @@ public class BookingController {
      * @param bookingNumber of booking to be deleted from the database.
      * @return true if deletion was done successfully.
      */
-    public boolean cancelBooking(String bookingNumber){
+    public boolean cancelBooking(String bookingNumber) throws SQLException{
         return db.deleteBooking(bookingNumber);
     }
     
-    // Er ekki viss um að þetta virki, Agnar skoða !!!!
+    /**
+     * Deletes a ticket from active booking.
+     * @param ticket to be deleted to the active booking, cannot be null.
+     */
     public void deleteTicket(Ticket ticket){
         seatcoder.setFlight(ticket.getFlight());
         seatcoder.cancelReservedSeat(ticket.getSeat());
@@ -116,23 +122,23 @@ public class BookingController {
      * Save active booking to the database. If the booking was saved successfully,
      * the active booking will be reset and a new booking made (with a new booking number). 
      * Will return true if successful else false.
-     * @return true if successful else false.
+     * @throws SQLException
      */
-    public boolean confirmBooking(){
+    public void confirmBooking() throws SQLException{
         boolean b = db.bookBooking(this.booking);
         if(b){
             resetBooking();   
         }
-        return b;
         
     }
     
     /**
      * Gets booking with a specific booking number from the database.
-     * @param bookingNumber of the booking to get from the database.
+     * @param bookingNumber of the booking to get from the database, cannot be null.
      * @return booking with given booking number.
+     * @throws java.sql.SQLException
      */
-    public Booking getBookingFromDB(String bookingNumber){
+    public Booking getBookingFromDB(String bookingNumber) throws SQLException{
         return db.getBooking(bookingNumber);
     }
             
@@ -153,6 +159,11 @@ public class BookingController {
         return db;
     }
     
+    /**
+     * Gets all available seats on a specific flight.
+     * @param flight to check for available seats, cannot be null.
+     * @return list of all seats available.
+     */
     public ArrayList<String> getAvailableSeats(Flight flight){
         if(!unaffectedFlights.contains(flight)){
             unaffectedFlights.add(flight.getCopy());
@@ -170,9 +181,11 @@ public class BookingController {
 
     
     public static void main( String[] args ){
+        /*
         DatabaseController db = new DatabaseController();
         BookingController BC = new BookingController(db);
         BC.cancelBooking("8474962");
+        */
         /*
         ArrayList<Flight> list = db.getFlights("Reykjavík", "Akureyri" ,LocalDate.of(2019, 01, 01));
         Flight flight1 = list.get(2);

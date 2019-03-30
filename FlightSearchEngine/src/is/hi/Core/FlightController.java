@@ -7,6 +7,7 @@ package is.hi.Core;
 
 
 import is.hi.UI.MainController;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -34,8 +35,20 @@ public class FlightController {
           mainController = main;
     }
       
-    public ArrayList<Flight> searchForFlight(String from, String to, LocalDate date){
-        
+      /**
+       * Search for flight in the database with given from, to location and date.
+       * Will return list of all flights with the argument passed in.
+       * @param from location flight will be flying from.
+       * @param to location flight will be flying to.
+       * @param date of flight
+       * @return list of all flights with argument given.
+       * @throws SQLException
+       * @throws IllegalArgumentException 
+       */
+    public ArrayList<Flight> searchForFlight(String from, String to, LocalDate date) throws SQLException, IllegalArgumentException{
+        if (from == null || to == null || date == null){
+            throw new IllegalArgumentException("Argument can not be null");
+        }
         loadedFlights = db.getFlights(from, to, date);
         filteredFlights = new ArrayList<Flight>(loadedFlights); // Afrita loadedFlights
         
