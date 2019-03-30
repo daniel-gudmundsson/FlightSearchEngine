@@ -96,7 +96,7 @@ public class DatabaseController{
      * @param bookingNumber Booking number to look up in the database.
      * @return booking with bookingNumber. Returns null if booking with bookingNumber does not exist.
      */
-    public Booking getBooking(String bookingNumber) throws SQLException{
+    public Booking getBooking(String bookingNumber){
         Booking booking = null;
         Passenger passenger;
         Ticket ticket;
@@ -122,7 +122,8 @@ public class DatabaseController{
         String kt;
         
         
-
+        try {
+            
             pstmt = conn.prepareStatement(SQL_GETBOOKING);
             
             pstmt.clearParameters();
@@ -163,6 +164,9 @@ public class DatabaseController{
             }
             
             rs.close(); 
+            } catch (Exception e) {
+                booking = null;
+            }
 
         
         return booking;

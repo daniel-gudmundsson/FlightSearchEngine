@@ -135,10 +135,9 @@ public class BookingController {
     /**
      * Gets booking with a specific booking number from the database.
      * @param bookingNumber of the booking to get from the database, cannot be null.
-     * @return booking with given booking number.
-     * @throws java.sql.SQLException
+     * @return booking with given booking number, null if not in the database.
      */
-    public Booking getBookingFromDB(String bookingNumber) throws SQLException{
+    public Booking getBookingFromDB(String bookingNumber){
         return db.getBooking(bookingNumber);
     }
             
