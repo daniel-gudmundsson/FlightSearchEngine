@@ -12,7 +12,7 @@ import java.util.Arrays;
  *
  * @author Agnar Pétursson, Háskóli Íslands, agp11@hi.is
  */
-public class SeatCoder {
+class SeatCoder {
 
     //0 er laust, 1 er fratekid
     private final String SEAT[] = {"1a", "1b", "1c", "1d", "2a", "2b", "2c", "2d", "3a", "3b", "3c", "3d", "4a", "4b", "4c", "4d", "5a", "5b", "5c", "5d"};

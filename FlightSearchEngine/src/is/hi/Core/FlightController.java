@@ -46,8 +46,8 @@ public class FlightController {
        * @throws IllegalArgumentException 
        */
     public ArrayList<Flight> searchForFlight(String from, String to, LocalDate date) throws SQLException, IllegalArgumentException{
-        if (from == null || to == null || date == null){
-            throw new IllegalArgumentException("Argument can not be null");
+        if (from == null || to == null || date == null || date.compareTo(LocalDate.of(2019, 01, 01)) == -1){
+            throw new IllegalArgumentException("Argument cannot be null or illegal date");
         }
         loadedFlights = db.getFlights(from, to, date);
         filteredFlights = new ArrayList<Flight>(loadedFlights); // Afrita loadedFlights

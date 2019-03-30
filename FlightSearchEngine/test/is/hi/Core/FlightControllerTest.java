@@ -108,6 +108,16 @@ public class FlightControllerTest {
             fail("Exception should not be thrown");
         }
     }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testLocalDateAvailableSearchForFlight() throws IllegalArgumentException, SQLException {
+        System.out.println("Searching for a flight with illegal date");
+       
+        String from = "Reykjavík";
+        String to = "Akureyri";
+        LocalDate date = LocalDate.of(2018, 12, 12);
+        ArrayList<Flight> result = flightController.searchForFlight(from, to, date);
+    }
 
 
 
