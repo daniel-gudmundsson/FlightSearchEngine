@@ -8,11 +8,14 @@ package is.hi.UI;
 import is.hi.Core.*;
 import is.hi.UI.*;
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -89,7 +92,13 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         flightController = new FlightController(databaseController);
-        databaseController = new DatabaseController();
+        try {
+            databaseController = new DatabaseController();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         bookingController = new BookingController(databaseController);
         //tickeDialogController = new TicketCreationDialogController();
         
@@ -107,7 +116,13 @@ public class MainController implements Initializable {
         to = toComboBox.getValue();
         date = datePicker.getValue();
         
-        loadedFlights = FXCollections.observableArrayList(flightController.searchForFlight(from, to, date));
+        try {
+            loadedFlights = FXCollections.observableArrayList(flightController.searchForFlight(from, to, date));
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         flightListView.setItems(loadedFlights);    
     }
@@ -173,9 +188,14 @@ public class MainController implements Initializable {
         bookingController.resetBooking();
 //        bookingController = new BookingController(databaseController);
 //        tickeDialogController.initBookingController(bookingController);
-        
-        // Uppfæri listann af flugum sem leitin sýni svo sætin séu rétt
-        loadedFlights = FXCollections.observableArrayList(flightController.searchForFlight(from, to, date));
+        try {
+            // Uppfæri listann af flugum sem leitin sýni svo sætin séu rétt
+            loadedFlights = FXCollections.observableArrayList(flightController.searchForFlight(from, to, date));
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         flightListView.setItems(loadedFlights);  
         
@@ -183,7 +203,11 @@ public class MainController implements Initializable {
 
     @FXML
     private void confirmCartButtonHandler(ActionEvent event) {
-        bookingController.confirmBooking();
+        try {
+            bookingController.confirmBooking();
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         cart = new ArrayList<Ticket>();
         cartListView.setItems(FXCollections.observableArrayList(cart));
         
@@ -196,7 +220,13 @@ public class MainController implements Initializable {
         bookingController.deleteTicket(ticket);
         updateCart();
         
-        loadedFlights = FXCollections.observableArrayList(flightController.searchForFlight(from, to, date));
+        try {
+            loadedFlights = FXCollections.observableArrayList(flightController.searchForFlight(from, to, date));
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         flightListView.setItems(loadedFlights); 
         

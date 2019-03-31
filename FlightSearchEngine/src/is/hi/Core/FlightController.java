@@ -46,7 +46,7 @@ public class FlightController {
        * @throws IllegalArgumentException 
        */
     public ArrayList<Flight> searchForFlight(String from, String to, LocalDate date) throws SQLException, IllegalArgumentException{
-        if (from == null || to == null || date == null || date.compareTo(LocalDate.of(2019, 01, 01)) == -1){
+        if (from == null || to == null || date == null || date.compareTo(LocalDate.of(2019, 01, 01)) < 0){
             throw new IllegalArgumentException("Argument cannot be null or illegal date");
         }
         loadedFlights = db.getFlights(from, to, date);

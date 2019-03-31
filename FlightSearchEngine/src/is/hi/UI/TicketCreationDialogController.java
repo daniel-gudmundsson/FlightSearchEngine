@@ -8,7 +8,6 @@ package is.hi.UI;
 import is.hi.Core.BookingController;
 import is.hi.Core.Flight;
 import is.hi.Core.Passenger;
-import is.hi.Core.SeatCoder;
 import is.hi.Core.Ticket;
 import java.net.URL;
 import java.text.ParseException;
@@ -75,7 +74,6 @@ public class TicketCreationDialogController implements Initializable {
     }
     
     public void initPane(Flight f, int numTickets){
-        SeatCoder seatCoder = new SeatCoder();
         //seatCoder.setFlight(f);
         //ticketGridPane.getChildren().remove(0);
         
@@ -105,7 +103,6 @@ public class TicketCreationDialogController implements Initializable {
         p.setContent(numberOfTicketsDialog);
         Dialog<ButtonType> d = new Dialog();
         d.setDialogPane(p);
-        SeatCoder seatCoder = new SeatCoder();
         //seatCoder.setFlight(f);
         ObservableList<Integer> ob = FXCollections.observableArrayList();
         //Agnar Breytti hér seatCoder i bookingCOntroller

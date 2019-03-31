@@ -47,7 +47,7 @@ public class DatabaseController{
   * @throws ClassNotFoundException
   * @throws SQLException 
   */
-    DatabaseController() throws ClassNotFoundException, SQLException {
+    public DatabaseController() throws ClassNotFoundException, SQLException {
             Class.forName("com.mysql.jdbc.Driver"); 
             conn = DriverManager.getConnection(SQL_URL,SQL_USER,SQL_PASSWORD);
             conn.setAutoCommit(false);
