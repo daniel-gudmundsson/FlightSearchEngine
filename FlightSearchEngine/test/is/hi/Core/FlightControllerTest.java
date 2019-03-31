@@ -91,7 +91,7 @@ public class FlightControllerTest {
        
         String from = null;
         String to = null;
-        LocalDate date = null;
+        LocalDate date = LocalDate.of(2019, 01, 01);
         ArrayList<Flight> result = flightController.searchForFlight(from, to, date);
     }
     
