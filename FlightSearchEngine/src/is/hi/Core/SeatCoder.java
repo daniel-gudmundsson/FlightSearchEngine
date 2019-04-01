@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- *
+ * A encoder/decoder for the seats of a flight
+ * Helps us keep track of available seats and taken seats
  * @author Agnar Pétursson, Háskóli Íslands, agp11@hi.is
  */
 class SeatCoder {

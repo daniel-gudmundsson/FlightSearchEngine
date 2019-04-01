@@ -13,13 +13,21 @@ import java.util.ArrayList;
  */
 public class Booking {
     
-   private String bookingNumber;
-   private ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+   private String bookingNumber; // The booking number
+   private ArrayList<Ticket> tickets = new ArrayList<Ticket>(); // The ticket that the booking contains
 
+   /**
+    * Creates a new booking
+    * @param bookingNumber The booking number
+    */
     public Booking(String bookingNumber) {
         this.bookingNumber = bookingNumber;
     }
 
+    /**
+     * To string method
+     * @return 
+     */
     @Override
     public String toString() {
         return "Booking{" + "bookingNumber=" + bookingNumber + ", tickets=" + tickets + '}';
@@ -27,20 +35,28 @@ public class Booking {
 
 
 
+    /**
+     * Returns the booking number
+     * @return bookingNumber
+     */
     public String getBookingNumber() {
         return bookingNumber;
     }
 
+    /**
+     * Returns the tickets
+     * @return tickets
+     */
     public ArrayList<Ticket> getTickets() {
         return tickets;
     }
-
+    
+    /**
+     * Sets the tickets of the booking
+     * @param tickets 
+     */
     public void setTickets(ArrayList<Ticket> tickets) {
         this.tickets = tickets;
     }
-    
-    
-    
-    
     
 }

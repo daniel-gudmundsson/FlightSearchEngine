@@ -13,15 +13,19 @@ import java.util.ArrayList;
 import javafx.fxml.FXML;
 
 /**
- *
+ * A flight controller class for searching for a flight
  * @author dantg
  */
 public class FlightController {
     
-    private ArrayList<Flight> loadedFlights;
-    private ArrayList<Flight> filteredFlights;
-    private DatabaseController db;
+    private ArrayList<Flight> loadedFlights; // The flights that the search returned
+    private ArrayList<Flight> filteredFlights; // Contains the flights that have been filtered 
+    private DatabaseController db; // Connection to the databes
 
+    /**
+     * Creates a new flight controller with a connection to the database
+     * @param db 
+     */
     public FlightController(DatabaseController db) {
         this.db = db;
     }
@@ -30,8 +34,11 @@ public class FlightController {
     @FXML
     private MainController mainController;
 
-      public void initializeControllers(MainController main, DatabaseController db) {
-          this.db = db;
+    /**
+     * Creates connection to the main controller (UI)
+     * @param main 
+     */
+      public void initializeControllers(MainController main) {
           mainController = main;
     }
       

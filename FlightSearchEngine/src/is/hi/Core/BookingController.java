@@ -11,12 +11,12 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
- *
+ * Controller class for everything concerning booking a flight
  * @author dantg
  */
 public class BookingController {
     
-    private Booking booking;
+    private Booking booking; 
     private DatabaseController db;
     //Flights with unaffacted seats, this will be used if we need to reset booking.
     private ArrayList<Flight> unaffectedFlights;
@@ -40,7 +40,7 @@ public class BookingController {
     
     /**
      * Generates a random integer between 0 and 9999999.
-     * @return Random interger.
+     * @return Random integer.
      */
     private String bookingNumberGen(){
         return  Integer.toString((int) (Math.random() * 10000000));

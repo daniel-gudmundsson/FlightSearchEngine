@@ -34,7 +34,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 
 /**
  * FXML Controller class
- *
+ * The main controller for the project
  * @author dantg
  */
 public class MainController implements Initializable {
@@ -102,7 +102,6 @@ public class MainController implements Initializable {
         bookingController = new BookingController(databaseController);
         //tickeDialogController = new TicketCreationDialogController();
         
-        flightController.initializeControllers(this, databaseController);
         tickeDialogController.initializeControllers(this, bookingController);
         
         initalizeComboboxes();

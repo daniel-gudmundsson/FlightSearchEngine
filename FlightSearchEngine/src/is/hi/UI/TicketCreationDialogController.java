@@ -33,7 +33,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 
 /**
  * FXML Controller class
- *
+ * A class for the ticket creation
  * @author dantg
  */
 public class TicketCreationDialogController implements Initializable {
@@ -77,7 +77,16 @@ public class TicketCreationDialogController implements Initializable {
         //seatCoder.setFlight(f);
         //ticketGridPane.getChildren().remove(0);
         
-        
+        while (ticketGridPane.getChildren().size() > 0) {
+            ticketGridPane.getChildren().remove(0);
+        }
+        while(ticketGridPane.getRowConstraints().size() > 0){
+            ticketGridPane.getRowConstraints().remove(0);
+        }
+
+        while(ticketGridPane.getColumnConstraints().size() > 0){
+            ticketGridPane.getColumnConstraints().remove(0);
+        }
         for(int i = 0; i<numTickets;i++)
         {
 //         if(i != numTickets - 1)
@@ -172,15 +181,15 @@ public class TicketCreationDialogController implements Initializable {
                 Ticket ticket = new Ticket(bNumber, seat, passenger, flight);
                 bookingController.addTicketToBooking(ticket);
             }
-            while (ticketGridPane.getChildren().size() > 0) {
-            ticketGridPane.getChildren().remove(0);
-            }
-            while(ticketGridPane.getRowConstraints().size() > 0){
-                ticketGridPane.getRowConstraints().remove(0);
-            }
-
-            while(ticketGridPane.getColumnConstraints().size() > 0){
-                ticketGridPane.getColumnConstraints().remove(0);
+//            while (ticketGridPane.getChildren().size() > 0) {
+//            ticketGridPane.getChildren().remove(0);
+//            }
+//            while(ticketGridPane.getRowConstraints().size() > 0){
+//                ticketGridPane.getRowConstraints().remove(0);
+//            }
+//
+//            while(ticketGridPane.getColumnConstraints().size() > 0){
+//                ticketGridPane.getColumnConstraints().remove(0);
             }
             /*
             for(Node c : ticketGridPane.getChildren())
@@ -191,9 +200,7 @@ public class TicketCreationDialogController implements Initializable {
         }
         
         //System.out.println("Hello");
-        
-    }
-    
+            
     private void confirmNumberOfTickets(Flight f) {
         int i = numberOfticketsComboBox.getValue();
         numberOfTicketsDialog.setVisible(false);
