@@ -30,18 +30,6 @@ public class FlightController {
         this.db = db;
     }
     
-    
-    @FXML
-    private MainController mainController;
-
-    /**
-     * Creates connection to the main controller (UI)
-     * @param main 
-     */
-      public void initializeControllers(MainController main) {
-          mainController = main;
-    }
-      
       /**
        * Search for flight in the database with given from, to location and date.
        * Will return list of all flights with the argument passed in.
