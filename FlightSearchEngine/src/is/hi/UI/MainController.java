@@ -46,10 +46,6 @@ public class MainController implements Initializable {
     @FXML
     private DatePicker datePicker;
     @FXML
-    private Slider priceSlider;
-    @FXML
-    private TextField priceTextField;
-    @FXML
     private ListView<Flight> flightListView;
     @FXML
     private Button searchButton;
@@ -57,7 +53,6 @@ public class MainController implements Initializable {
     private FlightController flightController;
     private DatabaseController databaseController;
     private BookingController bookingController;
-    
     @FXML
     private TicketCreationDialogController tickeDialogController; // Þarf alltaf að vera @FXML fyrir ofan þetta
     
@@ -91,7 +86,7 @@ public class MainController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        flightController = new FlightController(databaseController);
+ 
         try {
             databaseController = new DatabaseController();
         } catch (ClassNotFoundException ex) {
@@ -99,6 +94,7 @@ public class MainController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        flightController = new FlightController(databaseController);
         bookingController = new BookingController(databaseController);
         //tickeDialogController = new TicketCreationDialogController();
         

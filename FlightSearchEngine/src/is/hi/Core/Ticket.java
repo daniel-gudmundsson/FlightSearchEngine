@@ -101,6 +101,6 @@ public class Ticket {
      */
     @Override
     public String toString() {
-        return bookingNumber + "    " + flight.getfNumber() + "     " + passenger.getName() + "   " + passenger.getKt() + "     " + flight.getFrom() + "     " + flight.getTo() + "     " + flight.getDate().toString();
+        return bookingNumber + "    " + flight.getfNumber() + "     " + passenger.getName() + "   " + passenger.getKt() + "     " + flight.getFrom() + "     " + flight.getTo() + "     " + flight.getDate().toString() + "     " + flight.getTime().toString();
     }
 }
