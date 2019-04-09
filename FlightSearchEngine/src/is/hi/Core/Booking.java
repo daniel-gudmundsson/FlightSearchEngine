@@ -8,7 +8,7 @@ package is.hi.Core;
 import java.util.ArrayList;
 
 /**
- *
+ * Class for a booking
  * @author Agnar Pétursson, Háskóli Íslands, agp11@hi.is
  */
 public class Booking {

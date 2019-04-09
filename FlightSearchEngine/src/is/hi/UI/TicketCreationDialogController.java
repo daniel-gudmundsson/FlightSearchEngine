@@ -33,7 +33,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 
 /**
  * FXML Controller class
- * A class for the ticket creation
+ * A dialog for the ticket creation
  * @author dantg
  */
 public class TicketCreationDialogController implements Initializable {
