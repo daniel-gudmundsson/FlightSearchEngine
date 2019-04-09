@@ -55,7 +55,7 @@ public class Booking {
      * Sets the tickets of the booking
      * @param tickets 
      */
-    public void setTickets(ArrayList<Ticket> tickets) {
+    void setTickets(ArrayList<Ticket> tickets) {
         this.tickets = tickets;
     }
     

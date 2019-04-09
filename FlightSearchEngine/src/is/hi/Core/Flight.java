@@ -113,7 +113,7 @@ public class Flight{
      * Sets the seats of the flight
      * @param seats 
      */
-    public void setSeats(String seats) {
+    void setSeats(String seats) {
         this.seats = seats;
     }
 

@@ -6,11 +6,9 @@
 package is.hi.Core;
 
 
-import is.hi.UI.MainController;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import javafx.fxml.FXML;
 
 /**
  * A flight controller class for searching for a flight
@@ -45,14 +43,14 @@ public class FlightController {
             throw new IllegalArgumentException("Argument cannot be null or illegal date");
         }
         loadedFlights = db.getFlights(from, to, date);
-        filteredFlights = new ArrayList<Flight>(loadedFlights); // Afrita loadedFlights
+        filteredFlights = new ArrayList<>(loadedFlights); // Afrita loadedFlights
         
         
         return loadedFlights;
     }
     
     // Í vinnslu
-    public ArrayList<Flight> filterByPrice(int price){
+    private ArrayList<Flight> filterByPrice(int price){
         for(Flight f: filteredFlights)
         {
             if (f.getPrice() > price)
@@ -66,30 +64,30 @@ public class FlightController {
         
     }
     
-    public void filterByTime(String time){
+    private void filterByTime(String time){
     }
     
-    public void filterByAirline(String airline){
+    private void filterByAirline(String airline){
     }
     
-    public void resetFilters(){
+    private void resetFilters(){
         
     }
     
     
-    public ArrayList<Flight> getLoadedFlights() {
+    private ArrayList<Flight> getLoadedFlights() {
         return loadedFlights;
     }
 
-    public void setLoadedFlights(ArrayList<Flight> loadedFlights) {
+    private void setLoadedFlights(ArrayList<Flight> loadedFlights) {
         this.loadedFlights = loadedFlights;
     }
 
-    public ArrayList<Flight> getFilteredFlights() {
+    private ArrayList<Flight> getFilteredFlights() {
         return filteredFlights;
     }
 
-    public void setFilteredFlights(ArrayList<Flight> filteredFlights) {
+    private void setFilteredFlights(ArrayList<Flight> filteredFlights) {
         this.filteredFlights = filteredFlights;
     }
 
