@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class DatabaseController {
 
     private Connection conn;
-    PreparedStatement pstmt;
+    private PreparedStatement pstmt;
 
     private final String SQL_URL = "jdbc:mysql://sql2.freemysqlhosting.net:3306/sql2276561";
     private final String SQL_USER = "sql2276561";
