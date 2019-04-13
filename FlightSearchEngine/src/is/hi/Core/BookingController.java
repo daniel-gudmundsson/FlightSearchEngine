@@ -15,12 +15,15 @@ import java.util.ArrayList;
  */
 public class BookingController {
 
+    //Active booking
     private Booking booking;
+    //Database controller that will be used to talk to the database.
     private DatabaseController db;
     //Flights with unaffacted seats, this will be used if we need to reset booking.
     private ArrayList<Flight> unaffectedFlights;
     //All flights that are active in tickets.
     private ArrayList<Flight> activeFlights;
+    //A encoder/decoder for the seats of a flight Helps us keep track of available seats and taken seats
     private final SeatCoder seatcoder = new SeatCoder();
 
     /**
@@ -85,7 +88,6 @@ public class BookingController {
         ArrayList<Ticket> tickets = booking.getTickets();
         tickets.add(ticket);
         booking.setTickets(tickets);
-
     }
 
     /**
@@ -179,7 +181,6 @@ public class BookingController {
         seatcoder.setFlight(activeFlights.get(activeFlights.indexOf(flight)));
 
         return seatcoder.getAvailableSeats();
-
     }
 
     public static void main(String[] args) {

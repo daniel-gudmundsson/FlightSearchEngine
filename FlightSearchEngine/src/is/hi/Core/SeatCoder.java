@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package is.hi.Core;
 
 import java.util.ArrayList;
@@ -15,12 +10,17 @@ import java.util.Arrays;
  */
 class SeatCoder {
 
-    //0 er laust, 1 er fratekid
+    //Name of all the seats on the plane.
     private final String SEAT[] = {"1a", "1b", "1c", "1d", "2a", "2b", "2c", "2d", "3a", "3b", "3c", "3d", "4a", "4b", "4c", "4d", "5a", "5b", "5c", "5d"};
 
+    //Seats that are available in binary format. element number 0 is "1a" element number 1 is "1b" etc.
+    //0 is available, 1 is reserved.
     private int[] availableSeatsBinary = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    //ArrayList with allt available seats, in string format.
     private ArrayList<String> availableSeats = new ArrayList<>();
+    //State of seats on the active flight in binaryformat, e.g 10001000010000000011.
     private String seatcode;
+    //Active flight.
     private Flight flight;
 
     /**
@@ -135,5 +135,4 @@ class SeatCoder {
     public String[] getSeatNames() {
         return SEAT;
     }
-
 }

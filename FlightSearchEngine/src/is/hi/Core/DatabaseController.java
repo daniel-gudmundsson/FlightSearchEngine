@@ -11,28 +11,45 @@ import java.util.ArrayList;
  * @author Agnar Pétursson, Háskóli Íslands, agp11@hi.is
  */
 public class DatabaseController {
-
+    
+    //Connection for database connection
     private Connection conn;
+    //Prepared statement
     private PreparedStatement pstmt;
 
+    //Url to the database.
     private final String SQL_URL = "jdbc:mysql://sql2.freemysqlhosting.net:3306/sql2276561";
+    //Username for the database.
     private final String SQL_USER = "sql2276561";
+    //Password for the database.
     private final String SQL_PASSWORD = "qF3!zE5!";
 
+    //SQL query to get flights, for getFlights method.
     private final String SQL_GETFLIGHTS = "SELECT * FROM Flight WHERE fFrom = ? and fTo = ? and date = ? ";
+    //SQL query to get seats on a flight.
     private final String SQL_GETFLIGHTSEAT = "SELECT seats FROM Flight WHERE  fnumber = ? and fFrom = ? and time = ? and date = ? ";
 
+    //SQL query to get booking with booking number.
     private final String SQL_GETBOOKING = "SELECT * FROM Booking WHERE bookingNumber = ?";
+    //SQL query to get everything for a booking.
     private final String SQL_GETTICKETPASSFLIGHT = "SELECT * FROM Ticket NATURAL JOIN Passenger NATURAL JOIN Flight WHERE bookingNumber = ?";
 
+    //SQL query to insert passenger to the database. Ignore is to be able to have passenger for 2 or more flights.
     private final String SQL_INSERTPASSENGER = "INSERT IGNORE INTO Passenger (kt, name, numberOfTickets) VALUES (?, ?, ?)";
+    //SQL query to insert ticket to the database.
     private final String SQL_INSERTTICKET = "INSERT INTO Ticket (bookingNumber, kt, seat, fnumber, date, time, fFrom) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    //SQL query to insert booking to the database.
     private final String SQL_INSERTBOOKING = "INSERT INTO Booking (bookingNumber, tickets) VALUES (?, ?)";
+    //SQL query to increment number of tickets for a passenger.
     private final String SQL_INCREMENTTICKETCOUNT = "UPDATE Passenger SET numberOfTickets = numberOfTickets + 1 WHERE kt = ?";
+    //SQL query to decrement number of tickets for a passenger.
     private final String SQL_DECREMENTTICKETCOUNT = "UPDATE Passenger SET numberOfTickets = numberOfTickets - 1 WHERE kt = ?";
+    //SQL query to update seats for a flight.
     private final String SQL_UPDATESEATS = "UPDATE Flight SET seats = ? where fNumber = ? and fFrom = ? and date = ? and time = ?";
 
+    //SQL query to delete booking from the database.
     private final String SQL_DELETEBOOKING = "DELETE FROM Booking WHERE bookingNumber = ?";
+    //SQL query to delete passenger from the database.
     private final String SQL_DELETEPASSENGER = "DELETE FROM Passenger WHERE kt = ? and numberOFTickets = 0";
 
     /**
