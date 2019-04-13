@@ -7,17 +7,19 @@ package is.hi.Core;
 
 /**
  * Class for a passenger
+ *
  * @author Agnar Pétursson, Háskóli Íslands, agp11@hi.is
  */
 public class Passenger {
-    
+
     String name; // Name of the passenger
     String kt; // Social security number of the passenger
 
     /**
      * Creates a new passenger
-     * @param name Name of the passenger
-     * @param kt Social security number of the passenger (Kennitala)
+     *
+     * @param name name of the passenger
+     * @param kt social security number of the passenger (Kennitala)
      */
     public Passenger(String name, String kt) {
         this.name = name;
@@ -26,6 +28,7 @@ public class Passenger {
 
     /**
      * To string method
+     *
      * @return toString
      */
     @Override
@@ -35,6 +38,7 @@ public class Passenger {
 
     /**
      * Returns the name of the passenger
+     *
      * @return name
      */
     public String getName() {
@@ -42,13 +46,12 @@ public class Passenger {
     }
 
     /**
-     * Returns the kt of the passenger
-     * @return kt
+     * Returns the social security number of the passenger
+     *
+     * @return social security number of the passenger
      */
     public String getKt() {
         return kt;
     }
-    
-    
-    
+
 }

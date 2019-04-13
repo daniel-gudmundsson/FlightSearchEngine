@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * A encoder/decoder for the seats of a flight
- * Helps us keep track of available seats and taken seats
+ * A encoder/decoder for the seats of a flight Helps us keep track of available seats and taken seats
+ *
  * @author Agnar Pétursson, Háskóli Íslands, agp11@hi.is
  */
 class SeatCoder {
@@ -23,9 +23,13 @@ class SeatCoder {
     private String seatcode;
     private Flight flight;
 
-
-    
-    void setFlight(Flight flight){
+    /**
+     * Set active flight. Active flight is the flight that the SeatCoder will do actions to when functions are
+     * called, e.g. reserveSeat.
+     *
+     * @param flight to set active.
+     */
+    void setFlight(Flight flight) {
         this.seatcode = flight.getSeats();
         this.flight = flight;
         int n = seatcode.length();
@@ -36,27 +40,43 @@ class SeatCoder {
                 availableSeats.add(SEAT[i]);
                 availableSeatsBinary[i] = 0;
             }
-        }  
+        }
     }
-    
-     void reserveSeat(String seat) {
+
+    /**
+     * Reserve a seat of the active flight.
+     *
+     * @param seat to reserve.
+     */
+    void reserveSeat(String seat) {
         if (isAvailable(seat)) {
             availableSeats.remove(seat);
             updateSeatcode();
-        }else{
+        } else {
             System.err.println("Seat reserved, is not available");
         }
     }
-    
-    void cancelReservedSeat(String seat){
-        if(!isAvailable(seat)){
+
+    /**
+     * Cancels the reserved seat of the active flight.
+     *
+     * @param seat to cancel.
+     */
+    void cancelReservedSeat(String seat) {
+        if (!isAvailable(seat)) {
             availableSeats.add(seat);
-            updateSeatcode();   
-        }else{
+            updateSeatcode();
+        } else {
             System.err.print("Seat already available");
         }
     }
 
+    /**
+     * Checks if seats is available in active flight.
+     *
+     * @param seat to check if is available.
+     * @return true is seat is available else false.
+     */
     public boolean isAvailable(String seat) {
         if (availableSeats.contains(seat)) {
             return true;
@@ -64,6 +84,9 @@ class SeatCoder {
         return false;
     }
 
+    /**
+     * Update the SeatCoder so availableSeatsBinary and availableSeats is in a legal state.
+     */
     private void updateSeatcode() {
         int n = this.seatcode.length();
         resetAvailableSeatBinary();
@@ -78,40 +101,39 @@ class SeatCoder {
         this.seatcode = code;
         flight.setSeats(this.seatcode);
     }
-    
-    private void resetAvailableSeatBinary(){
-        availableSeatsBinary = new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+
+    /**
+     * Resets the availableSeatsBinary to {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+     */
+    private void resetAvailableSeatBinary() {
+        availableSeatsBinary = new int[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
     }
 
+    /**
+     * Returns available seats.
+     *
+     * @return available seats.
+     */
     ArrayList<String> getAvailableSeats() {
         return availableSeats;
     }
 
+    /**
+     * Returns active flight.
+     *
+     * @return active flight.
+     */
     Flight getFlight() {
         return flight;
     }
-    
 
-    private String getSeatcode() {
-        return seatcode;
-    }
-    
-
-    private int[] getAvailableSeatsBinary() {
-        return availableSeatsBinary;
-    }
-    
-    
-    // Daníel bætti þessu við, gæti þurft að nota þetta
-    public String [] getSeatNames(){
+    /**
+     * Returns name of all seats on the plane.
+     *
+     * @return name of all seats on the plane.
+     */
+    public String[] getSeatNames() {
         return SEAT;
     }
-    
-    
-    
-     public static void main( String[] args ){
-        
-         
-     }
-    
+
 }

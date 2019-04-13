@@ -14,25 +14,25 @@ import java.util.Objects;
  */
 public class Flight{
     
-    private String fNumber; // Flight number
-    private String airline; // Airline
-    private String from; // From (departure)
-    private String to; // To (destination)
-    private LocalDate date; // Date of the flight
-    private LocalTime time; // Time of the flight
-    private int price; // Price of the flight
+    private final String fNumber; // Flight number
+    private final String airline; // Airline
+    private final String from; // From (departure)
+    private final String to; // To (destination)
+    private final LocalDate date; // Date of the flight
+    private final LocalTime time; // Time of the flight
+    private final int price; // Price of the flight
     private String seats; // Seats of the flight
 
     /**
-     * Creates a new flight
-     * @param fNumber
-     * @param airline
-     * @param from
-     * @param to
-     * @param date
-     * @param time
-     * @param price
-     * @param seats 
+     * Creates a new flight.
+     * @param fNumber flight number.
+     * @param airline airline.
+     * @param from departure location.
+     * @param to destination location.
+     * @param date date.
+     * @param time time.
+     * @param price price of flight.
+     * @param seats seats in binary format.
      */
     public Flight(String fNumber, String airline, String from, String to, LocalDate date, LocalTime time, int price, String seats) {
         this.fNumber = fNumber;
@@ -125,8 +125,8 @@ public class Flight{
 
     /**
      * Equals method for flights
-     * @param obj
-     * @return 
+     * @param obj flight
+     * @return true if equals.
      */
     @Override
     public boolean equals(Object obj) {
@@ -158,7 +158,7 @@ public class Flight{
     
     /**
      * Retuns a copy of the flight
-     * @return 
+     * @return copy of flight.
      */
     public Flight getCopy(){
         Flight flight;
@@ -169,7 +169,7 @@ public class Flight{
     
     /**
      * To string method
-     * @return 
+     * @return "fNumber       airline     from        to      date        time        price"
      */
     @Override
     public String toString() {

@@ -1,39 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package is.hi.Core;
 
 /**
  * Class for tickets
+ *
  * @author dantg
  */
 public class Ticket {
-    
+
     private String bookingNumber; // The booking number of the booking that contains the ticket
     private String seat; // Seat of the ticket
     private Passenger passenger; // The passenger of the ticket
     private Flight flight; // The flight the ticket is for
-    
+
     /**
      * Creates a new ticket
+     *
      * @param bookingNumber
      * @param seat
      * @param passenger
-     * @param flight 
+     * @param flight
      */
-    public Ticket(String bookingNumber, String seat, Passenger passenger, Flight flight){
+    public Ticket(String bookingNumber, String seat, Passenger passenger, Flight flight) {
         this.bookingNumber = bookingNumber;
         this.seat = seat;
         this.passenger = passenger;
         this.flight = flight;
     }
-    
-    
+
     /**
      * Sets the booking number of the ticket
-     * @param bookingNumber 
+     *
+     * @param bookingNumber
      */
     public void setBookingNumber(String bookingNumber) {
         this.bookingNumber = bookingNumber;
@@ -41,7 +38,8 @@ public class Ticket {
 
     /**
      * Sets the seat of the ticket
-     * @param seat 
+     *
+     * @param seat
      */
     public void setSeat(String seat) {
         this.seat = seat;
@@ -49,7 +47,8 @@ public class Ticket {
 
     /**
      * Sets the passenger of the ticket
-     * @param passenger 
+     *
+     * @param passenger
      */
     public void setPassenger(Passenger passenger) {
         this.passenger = passenger;
@@ -57,14 +56,16 @@ public class Ticket {
 
     /**
      * Sets the flight of the ticket
-     * @param flight 
+     *
+     * @param flight
      */
     public void setFlight(Flight flight) {
         this.flight = flight;
     }
-    
+
     /**
      * Returns the booking number of the ticket
+     *
      * @return bookingNumber
      */
     public String getBookingNumber() {
@@ -73,6 +74,7 @@ public class Ticket {
 
     /**
      * Returns the seat of the ticket
+     *
      * @return seat
      */
     public String getSeat() {
@@ -81,6 +83,7 @@ public class Ticket {
 
     /**
      * Returns the passenger of the ticket
+     *
      * @return passenger
      */
     public Passenger getPassenger() {
@@ -89,6 +92,7 @@ public class Ticket {
 
     /**
      * Returns the flight of the ticket
+     *
      * @return flight
      */
     public Flight getFlight() {
@@ -97,7 +101,8 @@ public class Ticket {
 
     /**
      * To string method
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
