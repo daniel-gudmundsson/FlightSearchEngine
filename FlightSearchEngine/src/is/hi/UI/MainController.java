@@ -62,8 +62,8 @@ public class MainController implements Initializable {
     private ObservableList<String> ob = FXCollections.observableArrayList();
     private ArrayList<Ticket> cart;
     
-    int activeIndex = -1;
-    int cartIndex = -1;
+    int activeIndex = -1; // Index of the fligthListView
+    int cartIndex = -1; //Index of the cartListview
     
     
     private ObservableList<Flight> loadedFlights;
@@ -105,6 +105,11 @@ public class MainController implements Initializable {
         initializeIndexControlCart();
     }  
 
+    /**
+     * This function is called when searching for a flight
+     * Uses the values in the comboboxes and datePicker
+     * @param event 
+     */
     @FXML
     private void searchHandler(ActionEvent event) {
         from = fromComboBox.getValue();
@@ -122,6 +127,9 @@ public class MainController implements Initializable {
         flightListView.setItems(loadedFlights);    
     }
 
+    /**
+     * Initializes the comboboxes with correct values
+     */
     private void initalizeComboboxes() {
         for(String s: airports)
         {
@@ -135,6 +143,11 @@ public class MainController implements Initializable {
         
     }
 
+    /**
+     * Creates a ticket using the selected flight
+     * Calls a dialog
+     * @param event 
+     */
     @FXML
     private void createTicket(ActionEvent event){
         Flight f = flightListView.getItems().get(activeIndex);
@@ -142,8 +155,9 @@ public class MainController implements Initializable {
         //tickeDialogController.addDialAndShow(i);
         //tickeDialogController.addDialAndShow(flightListView.getItems().get(activeIndex));
     }
-        /**
-     * Frumstillir listann
+    
+    /**
+     * Adds a listener to flightListview index
      */
     private void initializeIndexControl() {
         MultipleSelectionModel<Flight> lsm = flightListView.getSelectionModel();
@@ -157,6 +171,9 @@ public class MainController implements Initializable {
         });
     }
     
+    /**
+     * Adds a listener to carListView index
+     */
     private void initializeIndexControlCart() {
         MultipleSelectionModel<Ticket> lsmC = cartListView.getSelectionModel();
         lsmC.selectedItemProperty().addListener(new ChangeListener<Ticket>() {
@@ -169,12 +186,19 @@ public class MainController implements Initializable {
         });
     }
 
+    /**
+     * Updates the cart after a booking has been modified
+     */
     void updateCart() {
         cart = bookingController.getBooking().getTickets();
         cartListView.setItems(FXCollections.observableArrayList(cart));
         
     }
 
+    /**
+     * Cancels the cart/booking
+     * @param event 
+     */
     @FXML
     private void cancelCartButtonHandler(ActionEvent event) {
         cart = new ArrayList<Ticket>();
@@ -195,7 +219,12 @@ public class MainController implements Initializable {
         flightListView.setItems(loadedFlights);  
         
     }
-
+    
+    /**
+     * Confirms the booking
+     * Booking gets pushed into the Database
+     * @param event 
+     */
     @FXML
     private void confirmCartButtonHandler(ActionEvent event) {
         try {
@@ -208,6 +237,10 @@ public class MainController implements Initializable {
         
     }
 
+    /**
+     * Deletes an individual ticket from cart/booking
+     * @param event 
+     */
     @FXML
     private void deleteTicketHandler(ActionEvent event) {
         Ticket ticket = cartListView.getItems().get(cartIndex);

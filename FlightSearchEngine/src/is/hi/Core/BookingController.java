@@ -27,7 +27,7 @@ public class BookingController {
     private final SeatCoder seatcoder = new SeatCoder();
 
     /**
-     * Initialises the BookingController and establish a connection to the database. Creates an active booking
+     * Initializes the BookingController and establish a connection to the database. Creates an active booking
      * with new booking number. Active booking is the booking that the bookingController will do actions to
      * when functions are called, e.g. adding tickets.
      *
